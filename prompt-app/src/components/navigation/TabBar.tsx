@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
@@ -14,121 +14,85 @@ export default function TabBar({
   const colorScheme = useColorScheme();
 
   const icons: Icons = {
-    index: (props) => (
-      <AntDesign
-        name='home'
-        size={22}
-        {...props}
-      />
-    ),
-    explore: (props) => (
-      <Feather
-        name='compass'
-        size={22}
-        {...props}
-      />
-    ),
-    create: (props) => (
-      <AntDesign
-        name='pluscircleo'
-        size={22}
-        {...props}
-      />
-    ),
-    profile: (props) => (
-      <AntDesign
-        name='user'
-        size={22}
-        {...props}
-      />
-    ),
+    index: (props) => <AntDesign name='home' size={22} {...props} />,
+    explore: (props) => <Feather name='compass' size={22} {...props} />,
+    create: (props) => <AntDesign name='pluscircleo' size={22} {...props} />,
+    bookmarks: (props) => <AntDesign name='staro' size={22} {...props} />,
+    profile: (props) => <AntDesign name='user' size={22} {...props} />,
   };
   return (
-    <ThemedView style={[styles.tabbar]}>
-      {state.routes.map((route: any, index: number) => {
-        const { options } = descriptors[route.key]; // info of current tab
-        let label;
-        if (options.tabBarLabel !== undefined) {
-          label = options.tabBarLabel;
-        } else if (options.title !== undefined) {
-          label = options.title;
-        } else {
-          label = route.name;
-        }
+    <ThemedView style={styles.tabContainer}>
+      <ThemedView darkColor='#000' lightColor='#fff' style={styles.tabbar}>
+        {state.routes.map((route: any, index: number) => {
+          const { options } = descriptors[route.key]; // info of current tab
 
-        if (['_sitemap', '+not-found'].includes(route.name)) return null;
+          if (['_sitemap', '+not-found'].includes(route.name)) return null;
 
-        const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
-          }
-        };
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, route.params);
+            }
+          };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
 
-        return (
-          <TouchableOpacity
-            key={route.name}
-            style={styles.tabbarItem}
-            accessibilityRole='button'
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-          >
-            {icons[route.name]({
-              color: isFocused
-                ? Colors[colorScheme ?? 'light'].tint
-                : Colors[colorScheme ?? 'light'].icon,
-            })}
-            <Text
-              style={{
-                color: isFocused
-                  ? Colors.primaryColor
-                  : Colors[colorScheme ?? 'light'].iconText,
-                fontSize: 11,
-              }}
+          return (
+            <TouchableOpacity
+              key={route.name}
+              style={styles.tabBarItem}
+              accessibilityRole='button'
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
             >
-              {label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+              {icons[route.name]({
+                color: isFocused
+                  ? Colors[colorScheme ?? 'light'].tint
+                  : Colors[colorScheme ?? 'light'].icon,
+              })}
+            </TouchableOpacity>
+          );
+        })}
+      </ThemedView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+  tabContainer: {
+    backgroundColor: '#000000',
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
+    borderCurve: 'continuous',
+  },
   tabbar: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: 0,
     paddingVertical: 15,
-    borderRadius: 10,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
     borderCurve: 'continuous',
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 10,
-    shadowOpacity: 0.1,
   },
-  tabbarItem: {
+  tabBarItem: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

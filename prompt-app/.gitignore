@@ -4,3 +4,12 @@
 
 expo-env.d.ts
 # @end expo-cli
+
+ios/
+android/
+.env
+.DS_Store
+.expo
+node_modules/
+npm-debug.log
+.vscode/

@@ -1,23 +1,26 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-interface GlobalContextProps {
-  theme: string;
-  setTheme: React.Dispatch<React.SetStateAction<string>>;
-  ThemeToggle: (theme: 'light' | 'dark') => void;
-}
+import { GlobalContextProps, Post } from '@/types';
+import { generatePosts } from '@/utils/generate-dummy-data';
 
 const GlobalContext = createContext<GlobalContextProps>({
   theme: 'light',
   setTheme: () => {},
   ThemeToggle: () => {},
+  Posts: [],
 });
 
 export default function GlobalProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<string>('light');
+  const [Posts, setPosts] = useState<Post[]>([]);
   const colorScheme = useColorScheme();
- 
 
   //  theme provider
   const getUserTheme = async () => {
@@ -33,7 +36,7 @@ export default function GlobalProvider({ children }: { children: ReactNode }) {
     }
   };
 
- async function ThemeToggle(theme: 'light' | 'dark') {
+  async function ThemeToggle(theme: 'light' | 'dark') {
     try {
       await AsyncStorage.setItem('theme', theme);
       setTheme(theme);
@@ -42,12 +45,15 @@ export default function GlobalProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  useEffect(() => {
+    getUserTheme();
+  }, [theme, colorScheme]);
 
   useEffect(() => {
-    getUserTheme()
-  }, [theme, colorScheme])
+    setPosts(generatePosts());
+  }, []);
   return (
-    <GlobalContext.Provider value={{ theme, setTheme, ThemeToggle }}>
+    <GlobalContext.Provider value={{ theme, setTheme, ThemeToggle, Posts }}>
       {children}
     </GlobalContext.Provider>
   );

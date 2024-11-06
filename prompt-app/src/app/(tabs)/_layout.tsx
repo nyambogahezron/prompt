@@ -8,7 +8,8 @@ export default function TabsLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Home',
+          title: '',
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -23,6 +24,12 @@ export default function TabsLayout() {
           title: 'Create',
         }}
       />
+      <Tabs.Screen
+        name='bookmarks'
+        options={{
+          title: 'Bookmarks',
+        }} 
+        />
       <Tabs.Screen
         name='profile'
         options={{
