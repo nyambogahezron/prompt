@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Post } from '@/types';
 import { Image } from 'expo-image';
 import { ThemedText } from '../Themed/ThemedText';
@@ -7,6 +7,7 @@ import { blurHash } from '@/utils/blurHash';
 import PostActionButtons from './PostActionButtons';
 import PostHeading from './PostHeading';
 import PostLeftSide from './PostLeftSide';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 interface PostItemProps {
   Post: Post;
@@ -27,16 +28,9 @@ export default function PostItem({ Post }: PostItemProps): JSX.Element {
           verified={Post.author.verified}
           createdAt={Post.createdAt}
         />
-        <ThemedText>{Post.content}</ThemedText>
-        {Post.image && (
-          <Image
-            source={Post.image}
-            style={{ width: '100%', minHeight: 300, borderRadius: 10 }}
-            placeholder={blurHash}
-            contentFit='cover'
-            transition={500}
-          />
-        )}
+        <View style={styles.postContainer}>
+          <ThemedText style={styles.postText}>{Post.content}</ThemedText>
+        </View>
         <PostActionButtons
           replies={Post.repliesCount}
           likes={Post.likesCount}
@@ -56,5 +50,24 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
+  },
+  postContainer: {
+    position: 'relative',
+    width: '100%',
+    minHeight: 85,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    // borderWidth: 1,
+    // borderColor: 'rgba(0,0,0,1)',
+    // backgroundColor: '#101',
+    marginLeft: -4,
+  },
+  postText: {},
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 8,
+    padding: 3,
   },
 });

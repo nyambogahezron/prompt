@@ -10,6 +10,7 @@ export function createRandomFollower(): User {
     id: faker.string.uuid(),
     photo: faker.image.avatar(),
     name,
+    email: faker.internet.email(),
     verified: Math.random() >= 0.5,
     bio: faker.person.bio(),
     username: faker.internet.username(),
@@ -26,6 +27,7 @@ export function createRandomUser(): User {
     id: faker.string.uuid(),
     photo: faker.image.avatar(),
     name,
+    email: faker.internet.email(),
     verified: Math.random() >= 0.5,
     bio: faker.person.bio(),
     followers: new Array(Math.floor(Math.random() * 10))
@@ -62,4 +64,13 @@ export function createRandomPost(): Post {
 
 export function generatePosts(): Post[] {
   return new Array(50).fill(null).map(() => createRandomPost());
+}
+
+export function generateUser(): User {
+  const user = createRandomUser();
+  return user;
+}
+
+export function generateUserPosts(): Post[] {
+  return new Array(10).fill(null).map(() => createRandomPost());
 }

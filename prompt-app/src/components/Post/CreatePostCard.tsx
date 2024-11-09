@@ -2,8 +2,11 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { router } from 'expo-router';
+import { useUserStore } from '@/store';
 
 export default function CreatePostCard() {
+    const User = useUserStore((state) => state.user);
+
   return (
     <TouchableOpacity
       onPress={() => router.navigate('/create-prompt')}
@@ -13,11 +16,14 @@ export default function CreatePostCard() {
         <View style={styles.headerImg}>
           <Image
             source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQosQi6DYrpWF8K3w73l7eXPK_Q8csIVim8HUpaZPQJ0AZ39QpAumeJVbb4Gxy68ovhOIE&usqp=CAU',
+              uri: User?.photo,
             }}
             style={styles.profileImage}
           />
-          <Text style={styles.username}>nyambogahezron</Text>
+         <View style={{marginTop: -5}}>
+            <Text style={styles.username}>{User?.name}</Text>
+            <Text style={styles.username}>@{User?.username}</Text>
+         </View>
         </View>
         <View style={styles.iconRow}>
           <TouchableOpacity>
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
   },
   headerImg: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 10,
   },
   header: {
@@ -63,7 +69,6 @@ const styles = StyleSheet.create({
   username: {
     color: 'white',
     fontWeight: 'bold',
-    marginTop: -5,
   },
   placeholderText: {
     color: '#888',

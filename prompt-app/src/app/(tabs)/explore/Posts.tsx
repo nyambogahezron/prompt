@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function explore() {
+export default function Explore() {
   return (
     <View>
       <Text>explore</Text>

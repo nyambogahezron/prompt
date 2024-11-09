@@ -30,7 +30,6 @@ export default function PostHeading({
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
         <ThemedText style={{ color: 'gray' }}>{timeAgo(createdAt)}</ThemedText>
-        <Feather name='more-horizontal' size={14} color='gray' />
       </View>
     </View>
   );

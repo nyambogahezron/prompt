@@ -3,56 +3,116 @@ import {
   Platform,
   RefreshControl,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
+  View,
+  Animated,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
-import { useGlobalContext } from '@/context/GlobalProvider';
 import PostItem from '@/components/Post/ThreadItem';
 import CreatePostCard from '@/components/Post/CreatePostCard';
-const isWeb = Platform.OS === 'web';
+import { usePostStore } from '@/store';
+import { Post } from '@/types';
+import { Stack } from 'expo-router';
+import { ThemedText } from '@/components/Themed/ThemedText';
 
 export default function TabOneScreen() {
   const animationRef = React.useRef<Lottie>(null);
-  const { Posts } = useGlobalContext();
-  // console.log(Posts);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const [displayedPosts, setDisplayedPosts] = React.useState<Post[]>([]);
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+  const Posts = usePostStore((state) => state.posts);
+
+  const loadMorePosts = () => {
+    if (Posts.length > displayedPosts.length) {
+      setLoadingMore(true);
+      setTimeout(() => {
+        const nextPosts = Posts.slice(
+          displayedPosts.length,
+          displayedPosts.length + 20
+        );
+        setDisplayedPosts([...displayedPosts, ...nextPosts]);
+        setLoadingMore(false);
+      }, 2000);
+    }
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    animationRef.current?.play();
+    setTimeout(() => {
+      setRefreshing(false);
+      animationRef.current?.pause();
+      setDisplayedPosts(Posts.slice(0, 20));
+    }, 2000);
+  }, [Posts]);
 
   React.useEffect(() => {
     animationRef.current?.play();
-  }, []);
+    setDisplayedPosts(Posts.slice(0, 20));
+  }, [Posts]);
+
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, 110],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
 
   return (
-    <SafeAreaView>
-      <ScrollView
+    <SafeAreaView style={{ flex: 1,backgroundColor: '#000' }}>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          header: () => {
+            return (
+              <Animated.View
+                style={[styles.stickyHeader, { opacity: headerOpacity }]}
+              >
+                <ThemedText style={styles.headerText}>Prompt</ThemedText>
+              </Animated.View>
+            );
+          },
+        }}
+     />
+
+      <Animated.FlatList
+        data={displayedPosts}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <PostItem Post={item} />}
         contentContainerStyle={{
           paddingTop: Platform.select({ android: 30 }),
           paddingHorizontal: 10,
+          paddingBottom: 20,
+          marginTop: 20,
         }}
+        ListHeaderComponent={
+          <>
+            <CreatePostCard />
+          </>
+        }
+        ListFooterComponent={
+          loadingMore && Posts.length > 35 ? (
+            <View style={{ padding: 20 }}>
+              <ThemedText>Loading...</ThemedText>
+            </View>
+          ) : null
+        }
+        onEndReached={loadMorePosts}
+        onEndReachedThreshold={0.5}
         refreshControl={
           <RefreshControl
-            refreshing={false}
+            refreshing={refreshing}
             tintColor={'transparent'}
-            onRefresh={() => animationRef.current?.play()}
+            colors={['transparent']}
+            progressBackgroundColor={'transparent'}
+            onRefresh={onRefresh}
           />
         }
-      >
-        {/* // TODO fix the animation on web */}
-        {!isWeb && (
-          <Lottie
-            ref={animationRef}
-            source={require('../../../assets/animations/loading.json')}
-            style={{
-              width: 70,
-              height: 70,
-              alignSelf: 'center',
-            }}
-            loop={false}
-            onAnimationFinish={() => animationRef.current?.pause()}
-          />
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
         )}
-        <CreatePostCard />
-        {Posts && Posts.map((Post) => <PostItem key={Post.id} Post={Post} />)}
-      </ScrollView>
+      />
     </SafeAreaView>
   );
 }
@@ -69,5 +129,20 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  stickyHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 80,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

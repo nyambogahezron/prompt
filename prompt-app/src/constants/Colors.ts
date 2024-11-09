@@ -1,6 +1,5 @@
-
 const primaryColor = '#11bce5';
-// const greyColor = '#737373';
+const greyColor = '#737373';
 
 export const Colors = {
   light: {
@@ -22,6 +21,6 @@ export const Colors = {
     tabIconSelected: primaryColor,
   },
   primaryColor,
-  // greyColor,
-  
+  greyColor,
+  border: '#acacac',
 };

@@ -24,7 +24,7 @@ export default function TabBar({
     <ThemedView style={styles.tabContainer}>
       <ThemedView darkColor='#000' lightColor='#fff' style={styles.tabbar}>
         {state.routes.map((route: any, index: number) => {
-          const { options } = descriptors[route.key]; // info of current tab
+          const { options } = descriptors[route.key];
 
           if (['_sitemap', '+not-found'].includes(route.name)) return null;
 

@@ -47,6 +47,7 @@ export interface Reply {
 export interface User {
   id: string;
   name: string;
+  email: string;
   username: string;
   verified: boolean;
   photo: string;

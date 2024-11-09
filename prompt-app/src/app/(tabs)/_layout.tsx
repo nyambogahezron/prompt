@@ -16,6 +16,7 @@ export default function TabsLayout() {
         name='explore'
         options={{
           title: 'Explore',
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -28,12 +29,14 @@ export default function TabsLayout() {
         name='bookmarks'
         options={{
           title: 'Bookmarks',
-        }} 
-        />
+        }}
+      />
       <Tabs.Screen
         name='profile'
         options={{
-          title: 'Profile',
+          title: '',
+          headerShown: false,
+          
         }}
       />
     </Tabs>
