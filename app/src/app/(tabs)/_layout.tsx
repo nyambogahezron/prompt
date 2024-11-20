@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import TabBar from '@/components/navigation/TabBar';
+import { Colors } from '@/constants/Colors';
 
 export default function TabsLayout() {
   return (
@@ -24,11 +25,12 @@ export default function TabsLayout() {
         options={{
           title: 'Create',
         }}
-      />
+        />
       <Tabs.Screen
         name='bookmarks'
         options={{
           title: 'Bookmarks',
+          headerStyle: { backgroundColor: Colors.black },
         }}
       />
       <Tabs.Screen
@@ -36,7 +38,6 @@ export default function TabsLayout() {
         options={{
           title: '',
           headerShown: false,
-          
         }}
       />
     </Tabs>

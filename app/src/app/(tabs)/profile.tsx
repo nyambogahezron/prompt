@@ -19,7 +19,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { UserProfile } from '@/components/UserProfile';
 import { generateUserPosts } from '@/utils/generate-dummy-data';
 import { Post } from '@/types';
-import PostItem from '@/components/Post/ThreadItem';
+import PostItem from '@/components/Post/Post';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { useUserStore } from '@/store';
 
@@ -44,8 +44,7 @@ export default function Profile({
     setActiveTab(tab);
   };
   const [Posts, setPosts] = useState<Post[]>([]);
-    const User = useUserStore((state) => state.user);
-
+  const User = useUserStore((state) => state.user);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -85,7 +84,7 @@ export default function Profile({
               color={Colors[colorScheme ?? 'light'].icon}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.navigate('/(auth)/sign-in')}>
             <Feather
               name='log-out'
               size={22}

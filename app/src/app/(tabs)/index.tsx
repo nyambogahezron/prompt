@@ -6,14 +6,18 @@ import {
   StyleSheet,
   View,
   Animated,
+  Dimensions,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
-import PostItem from '@/components/Post/ThreadItem';
+import PostItem from '@/components/Post/Post';
 import CreatePostCard from '@/components/Post/CreatePostCard';
 import { usePostStore } from '@/store';
 import { Post } from '@/types';
 import { Stack } from 'expo-router';
 import { ThemedText } from '@/components/Themed/ThemedText';
+import CustomHeader from '@/components/CustomHeader';
+import { Colors } from '@/constants/Colors';
+const width = Dimensions.get('window').width;
 
 export default function TabOneScreen() {
   const animationRef = React.useRef<Lottie>(null);
@@ -59,21 +63,24 @@ export default function TabOneScreen() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1,backgroundColor: '#000' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black }}>
       <Stack.Screen
         options={{
           headerShown: true,
           header: () => {
             return (
               <Animated.View
-                style={[styles.stickyHeader, { opacity: headerOpacity }]}
+                style={[
+                  styles.stickyHeader,
+                  { opacity: headerOpacity, height: 50 },
+                ]}
               >
-                <ThemedText style={styles.headerText}>Prompt</ThemedText>
+                <CustomHeader />
               </Animated.View>
             );
           },
         }}
-     />
+      />
 
       <Animated.FlatList
         data={displayedPosts}
@@ -125,21 +132,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+
   stickyHeader: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     height: 80,
-    backgroundColor: '#000',
+    backgroundColor: Colors.black,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    width: width,
   },
   headerText: {
     fontSize: 18,

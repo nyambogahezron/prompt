@@ -1,10 +1,10 @@
+import { Colors } from '@/constants/Colors';
 import { Post } from '@/types';
 import { blurHash } from '@/utils/blurHash';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import {
   StyleSheet,
-  Touchable,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -16,13 +16,17 @@ export default function PostLeftSide(Post: Post) {
 
   return (
     <View style={{ justifyContent: 'space-between' }}>
-      <TouchableOpacity onPress={() => router.push('/(tabs)/profile')}>
+      <TouchableOpacity
+        onPress={() => router.push('/(tabs)/profile')}
+        style={styles.imageWrapper}
+      >
         <Image
           source={Post.author.photo}
           style={styles.image}
           placeholder={blurHash}
           contentFit='cover'
           transition={500}
+          contentPosition={'center'}
         />
       </TouchableOpacity>
       <View
@@ -33,31 +37,25 @@ export default function PostLeftSide(Post: Post) {
           flexGrow: 1,
         }}
       />
-      <View
-        style={{
-          width: 20,
-          alignItems: 'center',
-          alignSelf: 'center',
-          gap: 3,
-        }}
-      >
-        <Image
-          // @ts-ignore
-          source={Post.replies[0]?.author.photo}
-          style={{ width: 10, height: 10, borderRadius: 15 }}
-          placeholder={blurHash}
-          contentFit='cover'
-          transition={500}
-        />
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  imageWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 35,
+    height: 35,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: Colors.primaryColor,
+  },
   image: {
     width: 30,
+    padding: 10,
     height: 30,
-    borderRadius: 20,
+    borderRadius: 8,
   },
 });

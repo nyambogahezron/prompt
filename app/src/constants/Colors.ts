@@ -1,10 +1,11 @@
-const primaryColor = '#11bce5';
+const primaryColor = '#f06292';
+const primaryLight = 'rgba(240, 98, 146, 0.02)';
 const greyColor = '#737373';
 
 export const Colors = {
   light: {
     text: '#11181C',
-    background: '#fff',
+    background: '#ffffff',
     tint: primaryColor,
     icon: '#687076',
     iconText: '#687076',
@@ -23,4 +24,9 @@ export const Colors = {
   primaryColor,
   greyColor,
   border: '#acacac',
+  white: '#ffffff',
+  whiteLight: "#cccccc",
+  black: '#000000',
+  blue: '#60a5fa',
+  primaryLight,
 };

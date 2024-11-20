@@ -19,6 +19,7 @@ export function ThemedText({
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
+        type === 'textSm' ? styles.textSm : undefined,
         style,
       ]}
       {...rest}
@@ -50,4 +51,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#0a7ea4',
   },
+
+  textSm :{
+    fontSize: 15,
+    lineHeight: 20,
+  }
+
+ 
 });

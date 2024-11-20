@@ -38,3 +38,28 @@ export const usePostStore = create<PostStore>()((set) => ({
     })),
   addPost: (post: Post) => set((state) => ({ posts: [post, ...state.posts] })),
 }));
+
+interface Bookmark extends Post {}
+
+let initialBookmarks: Bookmark[] = [];
+
+interface BookmarkStore {
+  bookmarks: Bookmark[];
+  setBookmarks: (bookmarks: Bookmark[]) => void;
+  addBookmark: (bookmark: Bookmark) => void;
+  removeBookmark: (bookmarkId: string) => void;
+}
+
+export const useBookmarkStore = create<BookmarkStore>()((set) => ({
+  bookmarks: initialBookmarks,
+  setBookmarks: (bookmarks: Bookmark[]) =>
+    set((state) => ({ bookmarks: bookmarks })),
+  addBookmark: (bookmark: Bookmark) =>
+    set((state) => ({ bookmarks: [bookmark, ...state.bookmarks] })),
+  removeBookmark: (bookmarkId: string) =>
+    set((state) => ({
+      bookmarks: state.bookmarks.filter(
+        (bookmark) => bookmark.id !== bookmarkId
+      ),
+    })),
+}));

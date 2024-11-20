@@ -1,5 +1,4 @@
 import { ThemedView } from '@/components/Themed/ThemedView';
-import { router } from 'expo-router';
 import React from 'react';
 import {
   View,
@@ -7,7 +6,6 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

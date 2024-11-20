@@ -1,7 +1,8 @@
-import { View } from "react-native";
-import { ThemedText } from "../Themed/ThemedText";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { timeAgo } from "@/utils/timeAgo";
+import { StyleSheet, View } from 'react-native';
+import { ThemedText } from '../Themed/ThemedText';
+import { MaterialIcons } from '@expo/vector-icons';
+import { timeAgo } from '@/utils/timeAgo';
+import { Colors } from '@/constants/Colors';
 
 export default function PostHeading({
   name,
@@ -13,19 +14,11 @@ export default function PostHeading({
   verified: boolean;
 }) {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexGrow: 1,
-        width: '100%',
-      }}
-    >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-        <ThemedText style={{ fontWeight: '500' }}>{name}</ThemedText>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <ThemedText style={styles.text}>{name}</ThemedText>
         {verified && (
-          <MaterialIcons name='verified' size={14} color='#60a5fa' />
+          <MaterialIcons name='verified' size={14} color={Colors.blue} />
         )}
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -34,3 +27,15 @@ export default function PostHeading({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexGrow: 1,
+    width: '100%',
+  },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  text: { fontWeight: '500' },
+});

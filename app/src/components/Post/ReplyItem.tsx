@@ -18,7 +18,7 @@ export default function ReplyItem({
   return (
     <View style={{ flexDirection: 'row', gap: 10 }}>
       <Image
-        source={author.photo}
+        source={author?.photo}
         style={{
           width: 40,
           height: 40,
@@ -30,9 +30,9 @@ export default function ReplyItem({
       />
       <View style={{ flexShrink: 1, gap: 10 }}>
         <PostHeading
-          name={author.name}
+          name={author?.name}
           createdAt={createdAt}
-          verified={author.verified}
+          verified={author?.verified}
         />
         <ThemedText>{content}</ThemedText>
         <PostActionButtons />

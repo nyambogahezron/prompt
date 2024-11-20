@@ -1,4 +1,6 @@
-import { type TextProps } from 'react-native';
+import { StyleProp, TextInputProps, ViewStyle, type TextProps } from 'react-native';
+
+export type event = React.FormEvent<HTMLInputElement>;
 
 export type TabBarProps = {
   state: any;
@@ -13,7 +15,7 @@ export type Icons = {
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'textSm';
 };
 
 export interface GlobalContextProps {
@@ -54,4 +56,13 @@ export interface User {
   bio: string;
   link?: string;
   followers?: User[];
+}
+
+
+export interface FormFieldProps extends TextInputProps {
+  title: string;
+  value: string;
+  placeholder?: string;
+  handleChangeText: (text: string) => void;
+  otherStyles?: StyleProp<ViewStyle>;
 }

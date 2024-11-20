@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import { Reply, Post } from '@/types';
-import PostItem from '@/components/Post/ThreadItem';
+import PostItem from '@/components/Post/Post';
 import {
   Dimensions,
   Pressable,
@@ -14,6 +14,9 @@ import ReplyItem from '@/components/Post/ReplyItem';
 import { useState } from 'react';
 import { createRandomFollower } from '../utils/generate-dummy-data';
 import { Ionicons } from '@expo/vector-icons';
+import { ThemedText } from '@/components/Themed/ThemedText';
+import { Stack } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 const width = Dimensions.get('window').width;
 
 export default function PostDetails(): JSX.Element {
@@ -39,8 +42,21 @@ export default function PostDetails(): JSX.Element {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ padding: 10 }}>
-        <PostItem Post={Post} />
+      <Stack.Screen
+        options={{
+          headerStyle: {
+            backgroundColor: Colors.black,
+          },
+        }}
+      />
+
+      {!Post && (
+        <View>
+          <ThemedText>No Post</ThemedText>
+        </View>
+      )}
+      <ScrollView contentContainerStyle={{ padding: 10, marginTop: 4 }}>
+        {Post && <PostItem Post={Post} />}
 
         <View style={{ gap: 15 }}>
           {Post.replies?.map((reply) => (

@@ -1,11 +1,19 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { router } from 'expo-router';
 import { useUserStore } from '@/store';
+import { Colors } from '@/constants/Colors';
 
 export default function CreatePostCard() {
-    const User = useUserStore((state) => state.user);
+  const User = useUserStore((state) => state.user);
 
   return (
     <TouchableOpacity
@@ -20,14 +28,14 @@ export default function CreatePostCard() {
             }}
             style={styles.profileImage}
           />
-         <View style={{marginTop: -5}}>
+          <View style={{ marginTop: -5 }}>
             <Text style={styles.username}>{User?.name}</Text>
             <Text style={styles.username}>@{User?.username}</Text>
-         </View>
+          </View>
         </View>
         <View style={styles.iconRow}>
           <TouchableOpacity>
-            <FontAwesome5 name='robot' size={16} color='white' />
+            <FontAwesome5 name='robot' size={13} color='white' />
           </TouchableOpacity>
         </View>
       </View>
@@ -44,7 +52,7 @@ export default function CreatePostCard() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
-    padding: 10,
+    padding: 1,
     borderRadius: 8,
     borderWidth: 1,
     marginBottom: 20,
@@ -63,8 +71,11 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 40,
     height: 40,
-    borderRadius: 20,
+    borderRadius: 10,
     marginRight: 10,
+    borderWidth: 2,
+    borderColor: Colors.primaryColor,
+    padding: 8,
   },
   username: {
     color: 'white',
