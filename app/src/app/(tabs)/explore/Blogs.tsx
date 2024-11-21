@@ -17,6 +17,9 @@ export default function Blogs() {
           paddingHorizontal: 10,
           paddingBottom: 20,
           marginTop: 20,
+          justifyContent: 'center',
+          alignContent: 'center',
+          alignSelf: 'center',
         }}
       />
     </View>

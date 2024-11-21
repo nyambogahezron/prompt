@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, Animated, FlatList, StyleSheet } from 'react-native';
+import { View, Platform, Animated, FlatList, StyleSheet } from 'react-native';
 import PostItem from '@/components/Post/Post';
 import { useBookmarkStore } from '@/store';
 import { ThemedText } from '@/components/Themed/ThemedText';
 import { ThemedView } from '@/components/Themed/ThemedView';
 import { Colors } from '@/constants/Colors';
+const isWeb = Platform.OS === 'web';
 
 export default function bookmarks() {
   const Bookmarks = useBookmarkStore((state) => state.bookmarks);
@@ -37,6 +38,9 @@ export default function bookmarks() {
   return (
     <View style={styles.container}>
       <FlatList
+        contentContainerStyle={{
+          marginTop: isWeb ? 20 : 0,
+        }}
         data={Bookmarks}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <PostItem Post={item} />}

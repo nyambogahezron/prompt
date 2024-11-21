@@ -75,7 +75,7 @@ export default function TabBar({
 
 const styles = StyleSheet.create({
   tabContainer: {
-    backgroundColor: '#000000',
+    backgroundColor: Colors.black,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
     borderCurve: 'continuous',

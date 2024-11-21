@@ -15,7 +15,7 @@ import { usePostStore } from '@/store';
 import { Post } from '@/types';
 import { Stack } from 'expo-router';
 import { ThemedText } from '@/components/Themed/ThemedText';
-import CustomHeader from '@/components/CustomHeader';
+import CustomHeader from '@/components/navigation/CustomHeader';
 import { Colors } from '@/constants/Colors';
 const width = Dimensions.get('window').width;
 
@@ -63,7 +63,7 @@ export default function TabOneScreen() {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.black }}>
+    <SafeAreaView style={styles.container}>
       <Stack.Screen
         options={{
           headerShown: true,
@@ -91,6 +91,9 @@ export default function TabOneScreen() {
           paddingHorizontal: 10,
           paddingBottom: 20,
           marginTop: 20,
+          maxWidth: 1200,
+          alignItems: 'center',
+          alignSelf: 'center',
         }}
         ListHeaderComponent={
           <>
@@ -127,6 +130,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.black,
   },
   title: {
     fontSize: 20,

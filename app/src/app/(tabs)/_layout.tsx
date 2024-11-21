@@ -25,7 +25,7 @@ export default function TabsLayout() {
         options={{
           title: 'Create',
         }}
-        />
+      />
       <Tabs.Screen
         name='bookmarks'
         options={{

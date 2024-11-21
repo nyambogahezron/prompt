@@ -56,8 +56,8 @@ export default function Profile({
 
   return (
     <ThemedView
-      darkColor='#000'
-      lightColor='#fff'
+      darkColor={Colors.black}
+      lightColor={Colors.white}
       style={[styles.container, { paddingTop: top }]}
     >
       <View style={styles.header}>

@@ -6,11 +6,17 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Platform,
+  Dimensions,
+  Pressable,
 } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { router } from 'expo-router';
 import { useUserStore } from '@/store';
 import { Colors } from '@/constants/Colors';
+const isWeb = Platform.OS === 'web';
+const width = Dimensions.get('window').width;
+const contentWidth = 600;
 
 export default function CreatePostCard() {
   const User = useUserStore((state) => state.user);
@@ -20,7 +26,10 @@ export default function CreatePostCard() {
       onPress={() => router.navigate('/create-prompt')}
       style={styles.container}
     >
-      <View style={styles.header}>
+      <Pressable
+        onPress={() => router.navigate('/profile')}
+        style={styles.header}
+      >
         <View style={styles.headerImg}>
           <Image
             source={{
@@ -28,23 +37,18 @@ export default function CreatePostCard() {
             }}
             style={styles.profileImage}
           />
-          <View style={{ marginTop: -5 }}>
+          <View>
             <Text style={styles.username}>{User?.name}</Text>
             <Text style={styles.username}>@{User?.username}</Text>
           </View>
         </View>
-        <View style={styles.iconRow}>
-          <TouchableOpacity>
-            <FontAwesome5 name='robot' size={13} color='white' />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <TextInput
-        placeholder='Share prompt now...'
-        placeholderTextColor='#888'
-        style={styles.placeholderText}
-        onFocus={() => router.navigate('/create-prompt')}
-      />
+      </Pressable>
+      <TouchableOpacity
+        onPress={() => router.navigate('/create-prompt')}
+        style={styles.icon}
+      >
+        <FontAwesome5 name='plus' size={15} color='white' />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -54,8 +58,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     padding: 1,
     borderRadius: 8,
-    borderWidth: 1,
+    borderBottomWidth: 0.1,
+    borderColor: Colors.border,
     marginBottom: 20,
+    width: width * 0.94,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    maxWidth: isWeb ? contentWidth : width,
   },
   headerImg: {
     flexDirection: 'row',
@@ -81,13 +91,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  placeholderText: {
-    color: '#888',
-    marginLeft: 50,
-    marginTop: -20,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+
+  icon: {
+    alignItems: 'center',
+    alignContent: 'flex-end',
+    justifyContent: 'flex-end',
+    right: 0,
+    marginTop: 10,
+    marginRight: 5,
   },
 });

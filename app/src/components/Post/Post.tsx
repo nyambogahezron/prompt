@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { Post } from '@/types';
 import { ThemedText } from '../Themed/ThemedText';
 import { useNavigation } from 'expo-router';
@@ -7,6 +7,9 @@ import PostActionButtons from './PostActionButtons';
 import PostHeading from './PostHeading';
 import PostLeftSide from './PostLeftSide';
 import { Colors } from '@/constants/Colors';
+const isWeb = Platform.OS === 'web';
+
+const ContentWidth = isWeb ? 600 : '100%';
 
 interface PostItemProps {
   Post: Post;
@@ -90,9 +93,7 @@ export default function PostItem({ Post }: PostItemProps): JSX.Element {
             </Pressable>
           )}
         </View>
-        <PostActionButtons
-         Post={Post}
-        />
+        <PostActionButtons Post={Post} />
       </View>
     </Pressable>
   );
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 6,
     paddingBottom: 30,
+    maxWidth: ContentWidth,
   },
   image: {
     width: 40,

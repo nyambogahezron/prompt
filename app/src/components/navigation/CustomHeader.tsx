@@ -12,12 +12,12 @@ export default function CustomHeader() {
       <View style={styles.topBar}>
         <View style={styles.logoSection}>
           <Image
-            source={require('../../assets/images/icon.png')}
+            source={require('../../../assets/images/icon.png')}
             style={styles.logo}
           />
         </View>
         <View style={styles.rightIcons}>
-          <Pressable onPress={() => router.navigate('/(tabs)/profile')}>
+          <Pressable onPress={() => router.navigate('/(tabs)/profile/Profile')}>
             <MaterialCommunityIcons
               name='fire'
               size={28}
@@ -27,7 +27,7 @@ export default function CustomHeader() {
           </Pressable>
 
           <Pressable
-            onPress={() => router.navigate('/(tabs)/profile')}
+            onPress={() => router.navigate('/(tabs)/profile/Profile')}
             style={styles.profileCircle}
           >
             <Text style={styles.profileText}>H</Text>
