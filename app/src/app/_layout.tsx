@@ -10,6 +10,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import GlobalProvider from '@/context/GlobalProvider';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
+import { Platform } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,9 +34,25 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GlobalProvider>
-        <Stack>
+        <Stack initialRouteName='(tabs)'>
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
           <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+          <Stack.Screen
+            name='create-prompt'
+            options={{
+              headerShown: true,
+              title: Platform.OS === 'web' ? '' : 'Create Prompt',
+              presentation: 'modal',
+              headerStyle: {
+                backgroundColor: Colors.black,
+              },
+              headerShadowVisible: false,
+              contentStyle: {
+                width: '100%',
+                backgroundColor: Colors.black,
+              },
+            }}
+          />
           <Stack.Screen name='+not-found' />
         </Stack>
       </GlobalProvider>

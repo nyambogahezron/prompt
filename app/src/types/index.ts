@@ -1,4 +1,10 @@
-import { StyleProp, TextInputProps, ViewStyle, type TextProps } from 'react-native';
+import {
+  StyleProp,
+  TextInputProps,
+  TextStyle,
+  ViewStyle,
+  type TextProps,
+} from 'react-native';
 
 export type event = React.FormEvent<HTMLInputElement>;
 
@@ -15,7 +21,13 @@ export type Icons = {
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'textSm';
+  type?:
+    | 'default'
+    | 'title'
+    | 'defaultSemiBold'
+    | 'subtitle'
+    | 'link'
+    | 'textSm';
 };
 
 export interface GlobalContextProps {
@@ -28,13 +40,12 @@ export interface GlobalContextProps {
 export interface Post {
   id: string;
   author: User;
+  description: string;
   content: string;
   image?: string;
   replies?: Reply[];
   repliesCount: number;
   likesCount: number;
-  mention?: boolean;
-  mentionUser: User;
   createdAt: string;
 }
 
@@ -58,7 +69,6 @@ export interface User {
   followers?: User[];
 }
 
-
 export interface FormFieldProps extends TextInputProps {
   title: string;
   value: string;
@@ -66,3 +76,11 @@ export interface FormFieldProps extends TextInputProps {
   handleChangeText: (text: string) => void;
   otherStyles?: StyleProp<ViewStyle>;
 }
+
+export type CustomButtonProps = {
+  title: string;
+  handlePress: () => void;
+  containerStyles?: StyleProp<ViewStyle>;
+  textStyles?: StyleProp<TextStyle>;
+  isLoading?: boolean;
+};

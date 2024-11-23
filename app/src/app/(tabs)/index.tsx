@@ -87,7 +87,8 @@ export default function TabOneScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <PostItem Post={item} />}
         contentContainerStyle={{
-          paddingTop: Platform.select({ android: 30 }),
+          paddingTop:
+            Platform.OS === 'web' ? 40 : Platform.OS === 'android' ? 30 : 0,
           paddingHorizontal: 10,
           paddingBottom: 20,
           marginTop: 20,
@@ -97,7 +98,11 @@ export default function TabOneScreen() {
         }}
         ListHeaderComponent={
           <>
-            <CreatePostCard />
+            {Platform.OS !== 'web' && (
+              <>
+                <CreatePostCard />
+              </>
+            )}
           </>
         }
         ListFooterComponent={

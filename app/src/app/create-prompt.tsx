@@ -1,129 +1,128 @@
-import { ThemedView } from '@/components/Themed/ThemedView';
-import React from 'react';
 import {
-  View,
-  Text,
   TextInput,
-  Image,
   StyleSheet,
+  Platform,
   ScrollView,
+  View,
+  Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
+import { ThemedView } from '@/components/Themed/ThemedView';
+import CustomButton from '@/components/CustomButton';
+import { Colors } from '@/constants/Colors';
+import { usePostStore, useUserStore } from '@/store';
+import { router } from 'expo-router';
+const { height } = Dimensions.get('window');
 
-export default function NewPostScreen() {
+export default function Create() {
+  const [description, setDescription] = React.useState('');
+  const [content, setContent] = React.useState('');
+
+  const user = useUserStore((state) => state.user);
+  const setPost = usePostStore((state) => state.addPost);
+
+  const handleSubmit = () => {
+    if (user) {
+      const data = {
+        id: Date.now().toString(),
+        author: user,
+        description,
+        content,
+        repliesCount: 0,
+        likesCount: 0,
+        createdAt: Date.now().toLocaleString(),
+      };
+
+      setPost(data);
+      // submit data to the server
+
+      router.navigate('/(tabs)')
+    } else {
+      console.error('User is not logged in');
+    }
+  };
   return (
-    <SafeAreaView style={styles.page}>
+    <View style={styles.container}>
       <ScrollView>
-        <ThemedView style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.headerImg}>
-              <Image
-                source={{
-                  uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQosQi6DYrpWF8K3w73l7eXPK_Q8csIVim8HUpaZPQJ0AZ39QpAumeJVbb4Gxy68ovhOIE&usqp=CAU',
-                }}
-                style={styles.profileImage}
-              />
-              <Text style={styles.username}>nyambogahezron</Text>
-            </View>
-          </View>
+        <ThemedView style={styles.innerContainer}>
           <TextInput
-            placeholder='Type prompt now...'
-            placeholderTextColor='#888'
-            style={styles.placeholderText}
+            style={styles.input}
+            placeholder='Description'
+            placeholderTextColor={Colors.primaryColor}
+            multiline={true}
+            onFocus={() => {}}
+            onChangeText={(text) => setDescription(text)}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder='Prompt'
+            placeholderTextColor={Colors.primaryColor}
+            onFocus={() => {}}
+            onChangeText={(text) => setContent(text)}
+            multiline={true}
           />
         </ThemedView>
       </ScrollView>
-    </SafeAreaView>
+
+      <View
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <CustomButton
+          title='Submit'
+          handlePress={() => handleSubmit()}
+          containerStyles={styles.submitButton}
+          textStyles={styles.buttonText}
+        />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-  },
   container: {
     flex: 1,
-    backgroundColor: '#000',
-    padding: 10,
+    width: '100%',
+    height: '100%',
+    backgroundColor: Colors.black,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  placeholderText: {
-    color: '#888',
-    marginLeft: 50,
-    marginTop: -20,
-  },
-  PostInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  headerImg: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  textInputContainer: {
+  innerContainer: {
     flex: 1,
+    position: 'relative',
+    alignSelf: 'center',
+    alignItems: 'flex-start',
+    padding: 16,
+    width: '100%',
+    maxWidth: Platform.OS === 'web' ? 600 : '100%',
+    borderWidth: 1,
+    height: Platform.OS === 'web' ? '100%' : height,
+    backgroundColor: Colors.black,
   },
-  username: {
-    color: 'white',
-    fontWeight: 'bold',
-    marginBottom: 5,
+  input: {
+    borderBottomWidth: 2,
+    borderColor: Colors.primaryColor,
+    marginBottom: 16,
+    color: Colors.white,
+    width: '100%',
+    height: 50,
   },
-  textInput: {
-    color: 'white',
-    fontSize: 16,
-  },
-  iconRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 20,
-  },
-  addToPost: {
-    flexDirection: 'row',
+  submitButton: {
+    position: 'absolute',
+    backgroundColor: Colors.primaryColor,
+    bottom: 80,
+    width: '90%',
+    marginHorizontal: 'auto',
     alignItems: 'center',
-    marginBottom: 20,
+    minHeight: 50,
+    maxWidth: Platform.OS === 'web' ? 600 : '100%',
   },
-  profileImageSmall: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: 10,
-  },
-  addToPostText: {
-    color: '#888',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  replyText: {
-    color: '#888',
-  },
-  postButton: {
-    backgroundColor: '#444',
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  postButtonText: {
-    color: '#888',
+  buttonText: {
+    color: Colors.white,
+    fontSize: 18,
   },
 });

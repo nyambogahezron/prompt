@@ -1,19 +1,10 @@
+import { CustomButtonProps } from '@/types';
 import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
   StyleSheet,
-  StyleProp,
-  ViewStyle,
-  TextStyle,
 } from 'react-native';
-type CustomButtonProps = {
-  title: string;
-  handlePress: () => void;
-  containerStyles: StyleProp<ViewStyle>;
-  textStyles?: StyleProp<TextStyle>;
-  isLoading?: boolean;
-};
 
 const CustomButton = ({
   title,
@@ -51,7 +42,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'secondary',
     borderRadius: 10,
-    minHeight: 62,
+    minHeight: 55,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

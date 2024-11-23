@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { Post } from '@/types';
 import { ThemedText } from '../Themed/ThemedText';
@@ -16,15 +16,21 @@ interface PostItemProps {
 }
 
 export default function PostItem({ Post }: PostItemProps): JSX.Element {
-  const [showMore, setShowMore] = useState(false);
+  const [showMoreDescription, setShowMoreDescription] = useState(false);
+  const [showMoreContent, setShowMoreContent] = useState(false);
   const [showFull, setShowFull] = useState(false);
-  const [contextText, setContextText] = useState(Post?.content || '');
   const [displayText, setDisplayText] = useState('');
   const navigation = useNavigation();
 
+  useEffect(() => {
+    if (Post.content.length > 300) {
+      setDisplayText('Show More');
+    }
+  }, [Post.content]);
+
   const handlePress = () => {
-    if (!showMore) {
-      setShowMore(true);
+    if (!showMoreDescription) {
+      setShowMoreDescription(true);
     } else if (!showFull) {
       setShowFull(true);
     } else {
@@ -34,29 +40,23 @@ export default function PostItem({ Post }: PostItemProps): JSX.Element {
   };
 
   const handleShowContent = () => {
-    if (contextText.length > 300) {
-      setContextText(Post.content.slice(0, 300) + '...');
+    if (!showMoreContent) {
+      setShowMoreContent(true);
+      setDisplayText('Show Less');
+    } else {
+      setShowMoreContent(false);
       setDisplayText('Show More');
     }
-
-    if (contextText.length < 300) {
-      setContextText(Post?.content || '');
-      setDisplayText('');
-    }
-
-    if (contextText.length > 600 && showMore) {
-      setContextText(Post.content.slice(0, 300) + '... ');
-      setDisplayText('Show Less');
-    }
   };
 
-  const getContent = () => {
-    if (showFull) return Post.content;
-    if (showMore) return Post.content.slice(0, 120) + '... ';
-    if (Post.content.length > 120)
-      return Post.content.slice(0, 120) + '... more';
-    return Post.content;
+  const getPostDescription = () => {
+    if (showFull) return Post.description;
+    if (showMoreDescription) return Post.description;
+    if (Post.description.length > 200)
+      return Post.description.slice(0, 200) + '... more';
+    return Post.description;
   };
+
   return (
     <Pressable
       style={styles.container}
@@ -73,23 +73,23 @@ export default function PostItem({ Post }: PostItemProps): JSX.Element {
         <View style={styles.postContainer}>
           <Pressable onPress={handlePress}>
             <ThemedText type='textSm' style={{ padding: 8 }}>
-              {getContent()}
+              {getPostDescription()}
             </ThemedText>
           </Pressable>
         </View>
 
         <View style={styles.prompt}>
           <ThemedText style={styles.postText}>
-            {Post.content} {Post.content}
-            {Post.content}
-            {Post.content.length > 300
-              ? Post.content.slice(0, 300) + '...'
-              : Post.content}
+            {showMoreContent
+              ? Post.content
+              : Post.content.slice(0, 300) + '...'}
           </ThemedText>
 
           {Post.content.length > 300 && (
-            <Pressable onPress={() => handleShowContent()}>
-              <ThemedText style={styles.button}>{displayText}</ThemedText>
+            <Pressable onPress={handleShowContent}>
+              <ThemedText type='link' style={styles.button}>
+                {displayText}
+              </ThemedText>
             </Pressable>
           )}
         </View>
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 8,
-    padding: 3,
+    fontSize: 13,
+    padding: 1,
   },
 });
