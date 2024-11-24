@@ -1,27 +1,60 @@
-import { View, Platform } from 'react-native';
+import { ThemedText } from '@/components/Themed/ThemedText';
+import { useBlogStore } from '@/store';
+import { Blog } from '@/types';
+import { blurHash } from '@/utils/blurHash';
+import { Image } from 'expo-image';
 import React from 'react';
-import Animated from 'react-native-reanimated';
-import { usePostStore } from '@/store';
-import PostItem from '@/components/Post/Post';
+import { View, FlatList, StyleSheet, Platform } from 'react-native';
 
 export default function Blogs() {
-  const Posts = usePostStore((state) => state.posts);
+  const BlogsData = useBlogStore((state) => state.blogs);
+
+  const BlogItem = (item: Blog) => (
+    <View style={styles.blogContainer}>
+      <Image
+        placeholder={blurHash}
+        source={{ uri: item.image }}
+        style={styles.image}
+        contentFit='cover'
+      />
+      <ThemedText style={{ fontSize: 18, fontWeight: 'bold' }}>
+        {item.title}
+      </ThemedText>
+      <ThemedText style={{ fontSize: 14, color: 'gray' }}>
+        By {item.author.name}
+      </ThemedText>
+    </View>
+  );
+
   return (
-    <View>
-      <Animated.FlatList
-        data={Posts}
+    <View style={styles.container}>
+      <FlatList
+        data={BlogsData}
+        renderItem={({ item }) => <BlogItem {...item} />}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <PostItem Post={item} />}
         contentContainerStyle={{
-          paddingTop: Platform.select({ android: 2 }),
-          paddingHorizontal: 10,
-          paddingBottom: 20,
-          marginTop: 20,
-          justifyContent: 'center',
-          alignContent: 'center',
+          maxWidth: 1200,
+          width: '100%',
+          alignItems: 'center',
           alignSelf: 'center',
         }}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 10,
+  },
+  blogContainer: {
+    width: '100%',
+    maxWidth: Platform.select({ web: 600 }),
+    marginBottom: 20,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+  },
+});

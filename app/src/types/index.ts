@@ -84,3 +84,24 @@ export type CustomButtonProps = {
   textStyles?: StyleProp<TextStyle>;
   isLoading?: boolean;
 };
+
+export type TreadingItem = {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  icon: string;
+  knownFor: string[];
+  rating: number;
+  site: string;
+};
+
+export type Blog = {
+  id: string;
+  author: User;
+  title: string;
+  image: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+};

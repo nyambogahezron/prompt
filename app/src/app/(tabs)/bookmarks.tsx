@@ -9,7 +9,6 @@ const isWeb = Platform.OS === 'web';
 
 export default function bookmarks() {
   const Bookmarks = useBookmarkStore((state) => state.bookmarks);
-  const removeBookmark = useBookmarkStore((state) => state.removeBookmark);
 
   const shakeAnimation = new Animated.Value(0);
 

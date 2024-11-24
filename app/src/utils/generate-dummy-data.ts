@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Post, User } from '@/types';
+import { Post, User, Blog } from '@/types';
 
 export function createRandomFollower(): User {
   const firstName = faker.person.firstName();
@@ -60,6 +60,19 @@ export function createRandomPost(): Post {
   };
 }
 
+export function createRandomBlog(): Blog {
+  const author = createRandomUser();
+  return {
+    id: faker.string.uuid(),
+    title: faker.lorem.sentence(),
+    author,
+    content: faker.lorem.paragraphs(5),
+    image: faker.image.url(),
+    createdAt: faker.date.recent().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
+  };
+}
+
 export function generatePosts(): Post[] {
   return new Array(50).fill(null).map(() => createRandomPost());
 }
@@ -71,4 +84,8 @@ export function generateUser(): User {
 
 export function generateUserPosts(): Post[] {
   return new Array(10).fill(null).map(() => createRandomPost());
+}
+
+export function generateBlogs(): Blog[] {
+  return new Array(40).fill(null).map(() => createRandomBlog());
 }

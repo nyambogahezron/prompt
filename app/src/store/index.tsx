@@ -1,5 +1,9 @@
-import { User, Post } from '@/types';
-import { generateUser, generatePosts } from '@/utils/generate-dummy-data';
+import { User, Post, Blog } from '@/types';
+import {
+  generateUser,
+  generatePosts,
+  generateBlogs,
+} from '@/utils/generate-dummy-data';
 import { create } from 'zustand';
 
 type userState = {
@@ -61,5 +65,29 @@ export const useBookmarkStore = create<BookmarkStore>()((set) => ({
       bookmarks: state.bookmarks.filter(
         (bookmark) => bookmark.id !== bookmarkId
       ),
+    })),
+}));
+
+let initialBlogs: Blog[] = generateBlogs();
+
+interface BlogStore {
+  blogs: Blog[];
+  setBlogs: (blogs: Blog[]) => void;
+  addBlog: (blog: Blog) => void;
+  updateBlog: (blog: Blog) => void;
+  deleteBlog: (blogId: string) => void;
+}
+
+export const useBlogStore = create<BlogStore>()((set) => ({
+  blogs: initialBlogs,
+  setBlogs: (blogs: Blog[]) => set((state) => ({ blogs: blogs })),
+  addBlog: (blog: Blog) => set((state) => ({ blogs: [blog, ...state.blogs] })),
+  updateBlog: (blog: Blog) =>
+    set((state) => ({
+      blogs: state.blogs.map((b) => (b.id === blog.id ? blog : b)),
+    })),
+  deleteBlog: (blogId: string) =>
+    set((state) => ({
+      blogs: state.blogs.filter((blog) => blog.id !== blogId),
     })),
 }));
