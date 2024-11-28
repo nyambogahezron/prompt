@@ -9,19 +9,12 @@
     "build": "tsc",
     "start": "npm run build && node dist/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nyambogahezron/prompt.git"
-  },
   "keywords": [
     "prompt"
   ],
   "author": "Hezron Nyamboga",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nyambogahezron/prompt/issues"
-  },
-  "homepage": "https://github.com/nyambogahezron/prompt#readme",
+
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
