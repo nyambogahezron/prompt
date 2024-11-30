@@ -14,7 +14,7 @@ import CreatePostCard from '@/components/Post/CreatePostCard';
 import { usePostStore } from '@/store';
 import { Post } from '@/types';
 import { Stack } from 'expo-router';
-import { ThemedText } from '@/components/Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import CustomHeader from '@/components/navigation/CustomHeader';
 import { Colors } from '@/constants/Colors';
 const width = Dimensions.get('window').width;

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { ThemedText } from '../Themed/ThemedText';
+import  ThemedText  from '@/components/ui/Text';
 import { MaterialIcons } from '@expo/vector-icons';
 import { timeAgo } from '@/utils/timeAgo';
 import { Colors } from '@/constants/Colors';

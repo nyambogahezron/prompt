@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { Post } from '@/types';
-import { ThemedText } from '../Themed/ThemedText';
+import  ThemedText from '@/components/ui/Text';
 import { useNavigation } from 'expo-router';
 import PostActionButtons from './PostActionButtons';
 import PostHeading from './PostHeading';

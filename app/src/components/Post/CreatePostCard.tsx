@@ -27,7 +27,7 @@ export default function CreatePostCard() {
       style={styles.container}
     >
       <Pressable
-        onPress={() => router.navigate('/profile')}
+        onPress={() => router.navigate('/(tabs)/profile/Profile')}
         style={styles.header}
       >
         <View style={styles.headerImg}>

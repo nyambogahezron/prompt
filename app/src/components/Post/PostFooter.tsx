@@ -1,4 +1,4 @@
-import { ThemedText } from "../Themed/ThemedText";
+import ThemedText from '@/components/ui/Text';
 
 export default function PostFooter({
   replies,

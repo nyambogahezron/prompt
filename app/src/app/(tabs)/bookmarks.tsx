@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Platform, Animated, FlatList, StyleSheet } from 'react-native';
 import PostItem from '@/components/Post/Post';
 import { useBookmarkStore } from '@/store';
-import { ThemedText } from '@/components/Themed/ThemedText';
-import { ThemedView } from '@/components/Themed/ThemedView';
+import ThemedText from '@/components/ui/Text';
+import ThemedView from '@/components/ui/View';
+
 import { Colors } from '@/constants/Colors';
 const isWeb = Platform.OS === 'web';
 

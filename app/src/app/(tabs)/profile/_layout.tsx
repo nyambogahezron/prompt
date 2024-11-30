@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View,  StyleSheet, Platform } from 'react-native';
 import Blogs from './Blogs';
 import Posts from './Posts';
 import Profile from './Profile';
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    // maxWidth: isWeb ? 600 : '100%',
+    maxWidth: isWeb ? 600 : '100%',
     alignContent: 'center',
     alignSelf: 'center',
   },

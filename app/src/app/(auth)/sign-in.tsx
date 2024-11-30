@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { View, Text, ScrollView, Dimensions, Image } from 'react-native';
 import AuthFormFooter from '../../components/AuthFormFooter';
 import CustomButton from '@/components/CustomButton';
-import FormField from '@/components/FormField';
+import FormField from '@/components/ui/input';
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,38 +1,18 @@
+import { SearchInputProps } from '@/types';
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { useState } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  TextInputProps,
-  StyleProp,
-  ViewStyle,
-  StyleSheet,
-} from 'react-native';
-import { icons } from '../constants';
+import { View, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 
-interface SearchInputProps extends TextInputProps {
-  title?: string;
-  value?: string;
-  placeholder?: string;
-  handleChangeText?: (text: string) => void;
-  otherStyles?: StyleProp<ViewStyle>;
-  initialQuery?:string;
-}
-
-const SearchInput: React.FC<SearchInputProps> = ({
+const SearchInput = ({
   title,
   value,
   placeholder,
   handleChangeText,
   otherStyles,
   ...props
-}) => {
+}: SearchInputProps) => {
   return (
-    <View
-      style={[styles.container, otherStyles]}
-    >
+    <View style={[styles.container, otherStyles]}>
       <TextInput
         style={styles.textInput}
         value={value}
@@ -43,7 +23,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
       />
 
       <TouchableOpacity>
-        <Image source={icons.search} style={styles.image} resizeMode='contain' />
+        <Ionicons
+          name='search'
+          size={24}
+          color='#FFFFFF'
+          style={styles.image}
+        />
       </TouchableOpacity>
     </View>
   );

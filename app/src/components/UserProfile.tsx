@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { ThemedText } from './Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import { useUserStore } from '@/store';
 
 export const UserProfile = () => {

@@ -9,7 +9,7 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { Icons, TabBarProps } from '@/types/index';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { ThemedView } from '../Themed/ThemedView';
+import ThemedView from '@/components/ui/View';
 import { router } from 'expo-router';
 
 export default function TabBar({

@@ -17,7 +17,7 @@ export default function PostLeftSide(Post: Post) {
   return (
     <View style={{ justifyContent: 'space-between' }}>
       <TouchableOpacity
-        onPress={() => router.push('/(tabs)/profile')}
+        onPress={() => router.push('/(tabs)/profile/Profile')}
         style={styles.imageWrapper}
       >
         <Image

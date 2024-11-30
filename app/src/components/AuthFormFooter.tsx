@@ -1,9 +1,11 @@
+import { LinkProps } from '@react-navigation/native';
 import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
+
 type AuthFormFooterProps = {
   text: string;
   linkText: string;
-  link: string;
+  link: any;
 };
 const AuthFormFooter = ({ text, linkText, link }: AuthFormFooterProps) => {
   return (

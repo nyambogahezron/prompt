@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { images } from '../constants';
+import { View, Text, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
+import { Ionicons } from '@expo/vector-icons';
 
 type EmptyStateProps = {
   title: string;
@@ -10,16 +10,10 @@ type EmptyStateProps = {
 const EmptyState = ({ title, subtitle }: EmptyStateProps) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={images.empty}
-        resizeMode='contain'
-        style={styles.image}
-      />
+      <Ionicons name='videocam' size={100} color='#FFFFFF' />
 
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>
-        {subtitle}
-      </Text>
+      <Text style={styles.subtitle}>{subtitle}</Text>
 
       <CustomButton
         title='create video'

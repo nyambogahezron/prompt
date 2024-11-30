@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import React from 'react';
-import { ThemedView } from '@/components/Themed/ThemedView';
+import ThemedView from '@/components/ui/View';
 import CustomButton from '@/components/CustomButton';
 import { Colors } from '@/constants/Colors';
 import { usePostStore, useUserStore } from '@/store';

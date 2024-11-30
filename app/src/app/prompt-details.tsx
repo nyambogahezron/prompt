@@ -14,7 +14,7 @@ import ReplyItem from '@/components/Post/ReplyItem';
 import { useState } from 'react';
 import { createRandomFollower } from '../utils/generate-dummy-data';
 import { Ionicons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import { Stack } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 const width = Dimensions.get('window').width;

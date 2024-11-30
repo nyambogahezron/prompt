@@ -105,3 +105,13 @@ export type Blog = {
   createdAt: string;
   updatedAt: string;
 };
+
+
+export interface SearchInputProps extends TextInputProps {
+  title?: string;
+  value?: string;
+  placeholder?: string;
+  handleChangeText?: (text: string) => void;
+  otherStyles?: StyleProp<ViewStyle>;
+  initialQuery?: string;
+}

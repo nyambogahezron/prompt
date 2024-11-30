@@ -1,25 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Image } from 'expo-image';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import { useNavigation } from 'expo-router';
-import { DrawerActions } from '@react-navigation/native';
 const width = Dimensions.get('window').width;
 
 export default function CustomHeader() {
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <View style={styles.logoSection}>
-          <Pressable
-            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-          >
-            <Ionicons name='menu' size={28} color={Colors.primaryColor} />
-          </Pressable>
-        </View>
         <View style={styles.rightIcons}>
           <Pressable onPress={() => router.navigate('/(tabs)/profile/Profile')}>
             <MaterialCommunityIcons
@@ -29,7 +18,6 @@ export default function CustomHeader() {
               style={styles.iconSpacing}
             />
           </Pressable>
-
           <Pressable
             onPress={() => router.navigate('/(tabs)/profile/Profile')}
             style={styles.profileCircle}
@@ -50,7 +38,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 10,
     backgroundColor: Colors.black,

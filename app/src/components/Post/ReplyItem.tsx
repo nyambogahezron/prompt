@@ -1,12 +1,11 @@
 import { View } from 'react-native';
 import { Reply } from '@/types';
-import { ThemedText } from '../Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import { Image } from 'expo-image';
 import { blurHash } from '@/utils/blurHash';
 import PostHeading from './PostHeading';
 import PostFooter from './PostFooter';
 import PostActionButtons from './PostActionButtons';
-
 
 export default function ReplyItem({
   author,

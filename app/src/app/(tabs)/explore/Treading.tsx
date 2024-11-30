@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import { TreadingItemsDate } from '@/data';
 import { TreadingItem } from '@/types';
 import { blurHash } from '@/utils/blurHash';

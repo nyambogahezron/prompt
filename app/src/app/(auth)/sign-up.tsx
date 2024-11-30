@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import AuthFormFooter from '../../components/AuthFormFooter';
 import Toast from 'react-native-toast-message';
-import FormField from '@/components/FormField';
+import FormField from '@/components/ui/input';
 import CustomButton from '@/components/CustomButton';
 
 const SignUp = () => {

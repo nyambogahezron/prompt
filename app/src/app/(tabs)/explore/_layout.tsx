@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 import Blogs from './Blogs';

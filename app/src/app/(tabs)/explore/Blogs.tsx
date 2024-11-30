@@ -1,4 +1,4 @@
-import { ThemedText } from '@/components/Themed/ThemedText';
+import ThemedText from '@/components/ui/Text';
 import { useBlogStore } from '@/store';
 import { Blog } from '@/types';
 import { blurHash } from '@/utils/blurHash';
