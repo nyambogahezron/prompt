@@ -15,10 +15,10 @@ import * as Font from 'expo-font';
 
 SplashScreen.preventAutoHideAsync();
 
-SplashScreen.setOptions({
-  duration: 1000,
-  fade: true,
-});
+// SplashScreen.setOptions({
+//   duration: 1000,
+//   fade: true,
+// });
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -27,7 +27,6 @@ export default function RootLayout() {
   React.useEffect(() => {
     async function prepare() {
       try {
-        await SplashScreen.preventAutoHideAsync();
         // Load fonts
         await Font.loadAsync({
           'space-mono': require('@assets/fonts/SpaceMono-Regular.ttf'),
@@ -44,6 +43,7 @@ export default function RootLayout() {
 
   const onLayoutRootView = React.useCallback(async () => {
     if (appIsReady) {
+      console.log('Hiding splash screen');
       await SplashScreen.hideAsync();
     }
   }, []);
@@ -64,27 +64,29 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GlobalProvider>
-        <Stack initialRouteName='(tabs)'>
-          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-          <Stack.Screen
-            name='create-prompt'
-            options={{
-              headerShown: true,
-              title: Platform.OS === 'web' ? '' : 'Create Prompt',
-              presentation: 'modal',
-              headerStyle: {
-                backgroundColor: Colors.black,
-              },
-              headerShadowVisible: false,
-              contentStyle: {
-                width: '100%',
-                backgroundColor: Colors.black,
-              },
-            }}
-          />
-          <Stack.Screen name='+not-found' />
-        </Stack>
+        <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+          <Stack initialRouteName='(tabs)'>
+            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+            <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+            <Stack.Screen
+              name='create-prompt'
+              options={{
+                headerShown: true,
+                title: Platform.OS === 'web' ? '' : 'Create Prompt',
+                presentation: 'modal',
+                headerStyle: {
+                  backgroundColor: Colors.black,
+                },
+                headerShadowVisible: false,
+                contentStyle: {
+                  width: '100%',
+                  backgroundColor: Colors.black,
+                },
+              }}
+            />
+            <Stack.Screen name='+not-found' />
+          </Stack>
+        </View>
       </GlobalProvider>
     </ThemeProvider>
   );
