@@ -2,10 +2,18 @@ import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
-import { useFonts, Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
+import {
+  useFonts,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
 import { SplashScreen } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
+import * as systemUI from 'expo-system-ui';
+
+systemUI.setBackgroundColorAsync('#121212');
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync().catch(() => {
