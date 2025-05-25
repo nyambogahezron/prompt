@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
 import { usePromptStore } from '@/store/promptStore';
 import { colors } from '@/constants/Colors';
@@ -13,34 +20,37 @@ import PromptCard from '@/components/PromptCard';
 
 export default function SavedScreen() {
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const { theme } = useThemeStore();
   const { prompts, removePrompt, toggleSavePrompt } = usePromptStore();
-  
+
   const isDark = theme === 'dark';
   const colorScheme = isDark ? colors.dark : colors.light;
-  
+
   const savedPrompts = prompts
-    .filter(prompt => prompt.saved)
-    .filter(prompt => 
+    .filter((prompt) => prompt.saved)
+    .filter((prompt) =>
       prompt.content.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
   const handleRemovePrompt = (id: string) => {
     removePrompt(id);
   };
-  
+
   const handleToggleSave = (id: string) => {
     toggleSavePrompt(id);
   };
-  
+
   const handleCopyPrompt = (content: string) => {
     // In a real app, implement clipboard functionality
     alert('Prompt copied to clipboard!');
   };
-  
-  const renderPromptItem = ({ item, index }: { item: any, index: number }) => (
+
+  const renderPromptItem = ({ item, index }: { item: any; index: number }) => (
     <PromptCard
       item={item}
       index={index}
@@ -49,16 +59,23 @@ export default function SavedScreen() {
       onCopy={() => handleCopyPrompt(item.content)}
     />
   );
-  
+
   return (
-    <View style={[styles.container, { backgroundColor: colorScheme.background }]}>
-      <Header title="Saved Prompts" />
-      
+    <View
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
+    >
+      {/* <Header title="Saved Prompts" /> */}
+
       <View style={styles.content}>
-        <View style={[styles.searchContainer, { 
-          backgroundColor: colorScheme.cardBackground,
-          borderColor: colorScheme.border 
-        }]}>
+        <View
+          style={[
+            styles.searchContainer,
+            {
+              backgroundColor: colorScheme.cardBackground,
+              borderColor: colorScheme.border,
+            },
+          ]}
+        >
           <Search size={20} color={colorScheme.secondaryText} />
           <TextInput
             style={[styles.searchInput, { color: colorScheme.text }]}
@@ -68,7 +85,7 @@ export default function SavedScreen() {
             onChangeText={setSearchQuery}
           />
         </View>
-        
+
         {savedPrompts.length > 0 ? (
           <FlatList
             data={savedPrompts}
@@ -80,7 +97,11 @@ export default function SavedScreen() {
         ) : (
           <EmptyState
             title="No saved prompts"
-            message={searchQuery ? "Try a different search term" : "Save some prompts to see them here"}
+            message={
+              searchQuery
+                ? 'Try a different search term'
+                : 'Save some prompts to see them here'
+            }
             icon="bookmark"
           />
         )}

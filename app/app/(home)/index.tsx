@@ -1,5 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
 import { colors } from '@/constants/Colors';
 import { statusBarHeight } from '@/constants/Layout';
@@ -7,7 +17,13 @@ import { usePromptStore } from '@/store/promptStore';
 import { Send, Copy, Bookmark, Share2 } from 'lucide-react-native';
 import Header from '@/components/Header';
 import PromptCategory from '@/components/PromptCategory';
-import Animated, { FadeIn, FadeInUp, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 export default function HomeScreen() {
   const [userInput, setUserInput] = useState('');
@@ -45,38 +61,50 @@ export default function HomeScreen() {
 
   const generatePrompt = () => {
     if (!userInput.trim()) return;
-    
+
     Keyboard.dismiss();
     setGenerating(true);
     setGeneratedPrompt(null);
-    
+
     // Simulate API call delay
     setTimeout(() => {
       // Example generated prompts based on input
       const examplePrompts = [
-        "Create a detailed image of a futuristic cityscape with flying vehicles, neon lights, and towering skyscrapers that reach into the clouds. Include people going about their daily lives in this advanced society.",
-        "Design a photorealistic portrait of an elderly wise woman with deep wrinkles, silver hair, and piercing blue eyes that tell stories of her long life experiences. She should wear traditional cultural attire.",
-        "Generate an image of an enchanted forest with magical creatures hidden among bioluminescent plants. The scene should be bathed in moonlight with rays breaking through the canopy.",
-        "Illustrate a cozy cabin in the mountains during autumn, with smoke coming from the chimney, fallen leaves of red and orange colors around, and a small lake reflecting the scenery in front."
+        'Create a detailed image of a futuristic cityscape with flying vehicles, neon lights, and towering skyscrapers that reach into the clouds. Include people going about their daily lives in this advanced society.',
+        'Design a photorealistic portrait of an elderly wise woman with deep wrinkles, silver hair, and piercing blue eyes that tell stories of her long life experiences. She should wear traditional cultural attire.',
+        'Generate an image of an enchanted forest with magical creatures hidden among bioluminescent plants. The scene should be bathed in moonlight with rays breaking through the canopy.',
+        'Illustrate a cozy cabin in the mountains during autumn, with smoke coming from the chimney, fallen leaves of red and orange colors around, and a small lake reflecting the scenery in front.',
       ];
-      
+
       // Select a random prompt from the examples, or create a more dynamic one based on input
       let result;
-      if (userInput.toLowerCase().includes("city") || userInput.toLowerCase().includes("urban")) {
+      if (
+        userInput.toLowerCase().includes('city') ||
+        userInput.toLowerCase().includes('urban')
+      ) {
         result = examplePrompts[0];
-      } else if (userInput.toLowerCase().includes("portrait") || userInput.toLowerCase().includes("person")) {
+      } else if (
+        userInput.toLowerCase().includes('portrait') ||
+        userInput.toLowerCase().includes('person')
+      ) {
         result = examplePrompts[1];
-      } else if (userInput.toLowerCase().includes("forest") || userInput.toLowerCase().includes("magic")) {
+      } else if (
+        userInput.toLowerCase().includes('forest') ||
+        userInput.toLowerCase().includes('magic')
+      ) {
         result = examplePrompts[2];
-      } else if (userInput.toLowerCase().includes("landscape") || userInput.toLowerCase().includes("nature")) {
+      } else if (
+        userInput.toLowerCase().includes('landscape') ||
+        userInput.toLowerCase().includes('nature')
+      ) {
         result = examplePrompts[3];
       } else {
         // Fallback to a modified version of the user input
         result = `Create a stunning visual representation of ${userInput} with intricate details, dramatic lighting, and a compelling composition that draws the viewer in. Use vibrant colors and contrasting elements to create visual interest.`;
       }
-      
+
       setGeneratedPrompt(result);
-      
+
       // Add to history
       addPrompt({
         id: Date.now().toString(),
@@ -85,9 +113,9 @@ export default function HomeScreen() {
         category: 'generated',
         saved: false,
       });
-      
+
       setGenerating(false);
-      
+
       // Scroll to show the output
       setTimeout(() => {
         scrollViewRef.current?.scrollToEnd({ animated: true });
@@ -102,7 +130,7 @@ export default function HomeScreen() {
 
   const savePrompt = () => {
     if (!generatedPrompt) return;
-    
+
     // Update the prompt to be saved
     addPrompt({
       id: Date.now().toString(),
@@ -111,7 +139,7 @@ export default function HomeScreen() {
       category: 'saved',
       saved: true,
     });
-    
+
     alert('Prompt saved successfully!');
   };
 
@@ -122,7 +150,7 @@ export default function HomeScreen() {
 
   const handleCategorySelect = (category: string) => {
     let promptIdea = '';
-    
+
     switch (category) {
       case 'creative':
         promptIdea = 'A surreal dreamscape with floating islands';
@@ -137,22 +165,24 @@ export default function HomeScreen() {
         promptIdea = 'A wildlife photo of a fox in a snowy forest';
         break;
     }
-    
+
     setUserInput(promptIdea);
     promptInputRef.current?.focus();
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colorScheme.background }]}>
-      <Header title="AI Prompt Generator" />
-      
+    <View
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
+    >
+      {/* <Header title="AI Prompt Generator" /> */}
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 88 : 0}
       >
-        <ScrollView 
-          style={styles.scrollView} 
+        <ScrollView
+          style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           ref={scrollViewRef}
           keyboardShouldPersistTaps="handled"
@@ -162,12 +192,17 @@ export default function HomeScreen() {
               What kind of prompt do you need today?
             </Text>
           </Animated.View>
-          
+
           <Animated.View entering={FadeInUp.delay(400).duration(800)}>
-            <Text style={[styles.categoriesTitle, { color: colorScheme.secondaryText }]}>
+            <Text
+              style={[
+                styles.categoriesTitle,
+                { color: colorScheme.secondaryText },
+              ]}
+            >
               Categories
             </Text>
-            
+
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -203,13 +238,16 @@ export default function HomeScreen() {
               />
             </ScrollView>
           </Animated.View>
-          
-          <Animated.View 
+
+          <Animated.View
             entering={FadeInUp.delay(500).duration(800)}
-            style={[styles.inputContainer, {
-              backgroundColor: colorScheme.cardBackground,
-              borderColor: colorScheme.border,
-            }]}
+            style={[
+              styles.inputContainer,
+              {
+                backgroundColor: colorScheme.cardBackground,
+                borderColor: colorScheme.border,
+              },
+            ]}
           >
             <TextInput
               ref={promptInputRef}
@@ -221,10 +259,13 @@ export default function HomeScreen() {
               multiline
               numberOfLines={4}
             />
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[
-                styles.generateButton, 
-                { backgroundColor: colorScheme.primary, opacity: userInput.trim() ? 1 : 0.6 }
+                styles.generateButton,
+                {
+                  backgroundColor: colorScheme.primary,
+                  opacity: userInput.trim() ? 1 : 0.6,
+                },
               ]}
               onPress={generatePrompt}
               disabled={!userInput.trim() || generating}
@@ -235,16 +276,16 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
           </Animated.View>
-          
+
           {generatedPrompt && (
-            <Animated.View 
+            <Animated.View
               style={[
-                styles.outputContainer, 
-                { 
+                styles.outputContainer,
+                {
                   backgroundColor: colorScheme.cardBackground,
                   borderColor: colorScheme.border,
                 },
-                outputAnimatedStyle
+                outputAnimatedStyle,
               ]}
             >
               <Text style={[styles.outputTitle, { color: colorScheme.text }]}>
@@ -254,22 +295,52 @@ export default function HomeScreen() {
                 {generatedPrompt}
               </Text>
               <View style={styles.outputActions}>
-                <TouchableOpacity style={styles.outputAction} onPress={copyToClipboard}>
+                <TouchableOpacity
+                  style={styles.outputAction}
+                  onPress={copyToClipboard}
+                >
                   <Copy size={20} color={colorScheme.secondaryText} />
-                  <Text style={[styles.outputActionText, { color: colorScheme.secondaryText }]}>Copy</Text>
+                  <Text
+                    style={[
+                      styles.outputActionText,
+                      { color: colorScheme.secondaryText },
+                    ]}
+                  >
+                    Copy
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.outputAction} onPress={savePrompt}>
+                <TouchableOpacity
+                  style={styles.outputAction}
+                  onPress={savePrompt}
+                >
                   <Bookmark size={20} color={colorScheme.secondaryText} />
-                  <Text style={[styles.outputActionText, { color: colorScheme.secondaryText }]}>Save</Text>
+                  <Text
+                    style={[
+                      styles.outputActionText,
+                      { color: colorScheme.secondaryText },
+                    ]}
+                  >
+                    Save
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.outputAction} onPress={sharePrompt}>
+                <TouchableOpacity
+                  style={styles.outputAction}
+                  onPress={sharePrompt}
+                >
                   <Share2 size={20} color={colorScheme.secondaryText} />
-                  <Text style={[styles.outputActionText, { color: colorScheme.secondaryText }]}>Share</Text>
+                  <Text
+                    style={[
+                      styles.outputActionText,
+                      { color: colorScheme.secondaryText },
+                    ]}
+                  >
+                    Share
+                  </Text>
                 </TouchableOpacity>
               </View>
             </Animated.View>
           )}
-          
+
           <View style={styles.spacer} />
         </ScrollView>
       </KeyboardAvoidingView>

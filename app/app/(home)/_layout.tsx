@@ -1,79 +1,78 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { Platform } from 'react-native';
+import { Drawer } from 'expo-router/drawer';
 import { useThemeStore } from '@/store/themeStore';
 import { colors } from '@/constants/Colors';
 import { Home, History, Bookmark, Settings, User } from 'lucide-react-native';
+import 'react-native-gesture-handler';
 
-export default function TabLayout() {
+export default function DrawerLayout() {
   const { theme } = useThemeStore();
   const isDark = theme === 'dark';
   const colorScheme = isDark ? colors.dark : colors.light;
 
   return (
-    <Tabs
+    <Drawer
       screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
+        headerStyle: {
           backgroundColor: colorScheme.cardBackground,
-          borderTopColor: colorScheme.border,
-          height: Platform.OS === 'ios' ? 84 : 64,
-          paddingBottom: Platform.OS === 'ios' ? 28 : 8,
-          paddingTop: 8,
         },
-        tabBarActiveTintColor: colorScheme.primary,
-        tabBarInactiveTintColor: colorScheme.secondaryText,
-        tabBarShowLabel: true,
-        tabBarLabelStyle: {
+        headerTintColor: colorScheme.primary,
+        headerTitleStyle: {
           fontFamily: 'Inter-Medium',
-          fontSize: 12,
         },
-      }}>
-      <Tabs.Screen
+        drawerStyle: {
+          backgroundColor: colorScheme.cardBackground,
+          width: 240,
+        },
+        drawerActiveTintColor: colorScheme.primary,
+        drawerInactiveTintColor: colorScheme.secondaryText,
+        drawerLabelStyle: {
+          fontFamily: 'Inter-Medium',
+          marginLeft: -20,
+        },
+      }}
+    >
+      <Drawer.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Home size={size} color={color} />
-          ),
+          drawerIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="history"
         options={{
           title: 'History',
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }) => (
             <History size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="saved"
         options={{
           title: 'Saved',
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }) => (
             <Bookmark size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <User size={size} color={color} />
-          ),
+          drawerIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color, size }) => (
+          drawerIcon: ({ color, size }) => (
             <Settings size={size} color={color} />
           ),
         }}
       />
-    </Tabs>
+    </Drawer>
   );
 }

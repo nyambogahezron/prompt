@@ -1,11 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
 import { usePromptStore } from '@/store/promptStore';
 import { colors } from '@/constants/Colors';
 import { statusBarHeight } from '@/constants/Layout';
-import { Edit, LogOut, Clock, History, Bookmark, FileText } from 'lucide-react-native';
+import {
+  Edit,
+  LogOut,
+  Clock,
+  History,
+  Bookmark,
+  FileText,
+} from 'lucide-react-native';
 import Header from '@/components/Header';
 import StatisticCard from '@/components/StatisticCard';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
@@ -16,79 +30,97 @@ export default function ProfileScreen() {
   const { user, logout } = useAuthStore();
   const { prompts } = usePromptStore();
   const router = useRouter();
-  
+
   const isDark = theme === 'dark';
   const colorScheme = isDark ? colors.dark : colors.light;
-  
+
   // Calculate prompt statistics
   const totalPrompts = prompts.length;
-  const savedPrompts = prompts.filter(prompt => prompt.saved).length;
-  
+  const savedPrompts = prompts.filter((prompt) => prompt.saved).length;
+
   // For demo purposes, we'll calculate average prompt length
-  const avgPromptLength = prompts.length > 0
-    ? Math.round(prompts.reduce((acc, prompt) => acc + prompt.content.length, 0) / prompts.length)
-    : 0;
-  
+  const avgPromptLength =
+    prompts.length > 0
+      ? Math.round(
+          prompts.reduce((acc, prompt) => acc + prompt.content.length, 0) /
+            prompts.length
+        )
+      : 0;
+
   // Calculate prompts generated today
   const today = new Date().setHours(0, 0, 0, 0);
   const promptsToday = prompts.filter(
-    prompt => new Date(prompt.createdAt).setHours(0, 0, 0, 0) === today
+    (prompt) => new Date(prompt.createdAt).setHours(0, 0, 0, 0) === today
   ).length;
-  
+
   const handleLogout = () => {
     logout();
     router.replace('/(auth)/login');
   };
-  
+
   return (
-    <View style={[styles.container, { backgroundColor: colorScheme.background }]}>
-      <Header title="Profile" />
-      
-      <ScrollView 
+    <View
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
+    >
+      {/* <Header title="Profile" /> */}
+
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Animated.View 
+        <Animated.View
           entering={FadeIn.delay(300).duration(1000)}
-          style={[styles.profileHeader, { backgroundColor: colorScheme.cardBackground }]}
+          style={[
+            styles.profileHeader,
+            { backgroundColor: colorScheme.cardBackground },
+          ]}
         >
           <View style={styles.profileContent}>
             <View style={styles.profileImageContainer}>
-              <Image 
-                source={{ uri: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800' }}
+              <Image
+                source={{
+                  uri: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800',
+                }}
                 style={styles.profileImage}
               />
-              <TouchableOpacity 
-                style={[styles.editButton, { backgroundColor: colorScheme.primary }]}
+              <TouchableOpacity
+                style={[
+                  styles.editButton,
+                  { backgroundColor: colorScheme.primary },
+                ]}
                 onPress={() => alert('Edit profile not implemented')}
               >
                 <Edit size={16} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
-            
+
             <Text style={[styles.userName, { color: colorScheme.text }]}>
               {user?.name || 'User Name'}
             </Text>
-            <Text style={[styles.userEmail, { color: colorScheme.secondaryText }]}>
+            <Text
+              style={[styles.userEmail, { color: colorScheme.secondaryText }]}
+            >
               {user?.email || 'user@example.com'}
             </Text>
-            
+
             <TouchableOpacity
               style={[styles.logoutButton, { borderColor: colorScheme.border }]}
               onPress={handleLogout}
             >
               <LogOut size={16} color={colorScheme.error} />
-              <Text style={[styles.logoutText, { color: colorScheme.error }]}>Logout</Text>
+              <Text style={[styles.logoutText, { color: colorScheme.error }]}>
+                Logout
+              </Text>
             </TouchableOpacity>
           </View>
         </Animated.View>
-        
+
         <Animated.View entering={FadeInUp.delay(500).duration(800)}>
           <Text style={[styles.sectionTitle, { color: colorScheme.text }]}>
             Your Stats
           </Text>
-          
+
           <View style={styles.statsContainer}>
             <StatisticCard
               title="Total Prompts"
@@ -98,7 +130,7 @@ export default function ProfileScreen() {
               colorEnd={colorScheme.cardBackground}
               delay={0}
             />
-            
+
             <StatisticCard
               title="Saved Prompts"
               value={savedPrompts.toString()}
@@ -107,7 +139,7 @@ export default function ProfileScreen() {
               colorEnd={colorScheme.cardBackground}
               delay={100}
             />
-            
+
             <StatisticCard
               title="Prompts Today"
               value={promptsToday.toString()}
@@ -116,7 +148,7 @@ export default function ProfileScreen() {
               colorEnd={colorScheme.cardBackground}
               delay={200}
             />
-            
+
             <StatisticCard
               title="Avg. Length"
               value={`${avgPromptLength} chars`}
@@ -127,7 +159,7 @@ export default function ProfileScreen() {
             />
           </View>
         </Animated.View>
-        
+
         <View style={styles.spacer} />
       </ScrollView>
     </View>
