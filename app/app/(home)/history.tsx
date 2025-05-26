@@ -1,64 +1,82 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
 import { usePromptStore } from '@/store/promptStore';
 import { colors } from '@/constants/Colors';
 import { statusBarHeight } from '@/constants/Layout';
-import { Calendar, Search, Trash2, Copy, Bookmark, BookmarkCheck } from 'lucide-react-native';
-import Header from '@/components/Header';
+import {
+  Calendar,
+  Search,
+  Trash2,
+  Copy,
+  Bookmark,
+  BookmarkCheck,
+} from 'lucide-react-native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import { formatDate } from '@/utils/dateUtils';
 import EmptyState from '@/components/EmptyState';
 
 export default function HistoryScreen() {
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const { theme } = useThemeStore();
   const { prompts, removePrompt, toggleSavePrompt } = usePromptStore();
-  
+
   const isDark = theme === 'dark';
   const colorScheme = isDark ? colors.dark : colors.light;
-  
+
   const historyPrompts = prompts
-    .filter(prompt => 
+    .filter((prompt) =>
       prompt.content.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
   const copyToClipboard = (content: string) => {
     // In a real app, implement clipboard functionality
     alert('Prompt copied to clipboard!');
   };
-  
+
   const deletePrompt = (id: string) => {
     removePrompt(id);
   };
-  
+
   const toggleSave = (id: string, currentSaveState: boolean) => {
     toggleSavePrompt(id);
   };
-  
-  const renderPromptItem = ({ item, index }: { item: any, index: number }) => (
-    <Animated.View 
+
+  const renderPromptItem = ({ item, index }: { item: any; index: number }) => (
+    <Animated.View
       entering={FadeInRight.delay(index * 100).duration(300)}
       style={[
-        styles.promptItem, 
-        { 
+        styles.promptItem,
+        {
           backgroundColor: colorScheme.cardBackground,
-          borderColor: colorScheme.border 
-        }
+          borderColor: colorScheme.border,
+        },
       ]}
     >
       <View style={styles.promptHeader}>
         <View style={styles.promptDateContainer}>
           <Calendar size={14} color={colorScheme.secondaryText} />
-          <Text style={[styles.promptDate, { color: colorScheme.secondaryText }]}>
+          <Text
+            style={[styles.promptDate, { color: colorScheme.secondaryText }]}
+          >
             {formatDate(item.createdAt)}
           </Text>
         </View>
         <View style={styles.promptActions}>
-          <TouchableOpacity 
-            style={styles.promptAction} 
+          <TouchableOpacity
+            style={styles.promptAction}
             onPress={() => toggleSave(item.id, item.saved)}
           >
             {item.saved ? (
@@ -67,14 +85,14 @@ export default function HistoryScreen() {
               <Bookmark size={18} color={colorScheme.secondaryText} />
             )}
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.promptAction} 
+          <TouchableOpacity
+            style={styles.promptAction}
             onPress={() => copyToClipboard(item.content)}
           >
             <Copy size={18} color={colorScheme.secondaryText} />
           </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.promptAction} 
+          <TouchableOpacity
+            style={styles.promptAction}
             onPress={() => deletePrompt(item.id)}
           >
             <Trash2 size={18} color={colorScheme.error} />
@@ -86,16 +104,21 @@ export default function HistoryScreen() {
       </Text>
     </Animated.View>
   );
-  
+
   return (
-    <View style={[styles.container, { backgroundColor: colorScheme.background }]}>
-      <Header title="Prompt History" />
-      
+    <View
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
+    >
       <View style={styles.content}>
-        <View style={[styles.searchContainer, { 
-          backgroundColor: colorScheme.cardBackground,
-          borderColor: colorScheme.border 
-        }]}>
+        <View
+          style={[
+            styles.searchContainer,
+            {
+              backgroundColor: colorScheme.cardBackground,
+              borderColor: colorScheme.border,
+            },
+          ]}
+        >
           <Search size={20} color={colorScheme.secondaryText} />
           <TextInput
             style={[styles.searchInput, { color: colorScheme.text }]}
@@ -105,7 +128,7 @@ export default function HistoryScreen() {
             onChangeText={setSearchQuery}
           />
         </View>
-        
+
         {historyPrompts.length > 0 ? (
           <FlatList
             data={historyPrompts}
@@ -117,7 +140,11 @@ export default function HistoryScreen() {
         ) : (
           <EmptyState
             title="No prompts found"
-            message={searchQuery ? "Try a different search term" : "Generate some prompts to see your history"}
+            message={
+              searchQuery
+                ? 'Try a different search term'
+                : 'Generate some prompts to see your history'
+            }
             icon="history"
           />
         )}

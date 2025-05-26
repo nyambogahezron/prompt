@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
@@ -14,7 +24,7 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { register } = useAuthStore();
   const { theme } = useThemeStore();
   const router = useRouter();
@@ -28,7 +38,7 @@ export default function RegisterScreen() {
       setError('Please fill in all fields');
       return;
     }
-    
+
     if (!email.includes('@')) {
       setError('Please enter a valid email address');
       return;
@@ -41,19 +51,19 @@ export default function RegisterScreen() {
 
     setLoading(true);
     setError(null);
-    
+
     try {
       // For demo purposes, we'll simulate a successful registration after a short delay
       setTimeout(() => {
         // Success
-        register({ 
-          id: '1', 
+        register({
+          id: '1',
           email,
           name,
-          token: 'fake-jwt-token-123456789'
+          token: 'fake-jwt-token-123456789',
         });
-        
-        router.replace('/(tabs)');
+
+        router.replace('/(home)');
       }, 1500);
     } catch (error) {
       console.error('Registration error:', error);
@@ -64,23 +74,31 @@ export default function RegisterScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={[styles.container, { backgroundColor: colorScheme.background }]} 
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Animated.View entering={FadeIn.delay(300).duration(1000)} style={styles.header}>
-          <Text style={[styles.title, { color: colorScheme.text }]}>Create Account</Text>
+        <Animated.View
+          entering={FadeIn.delay(300).duration(1000)}
+          style={styles.header}
+        >
+          <Text style={[styles.title, { color: colorScheme.text }]}>
+            Create Account
+          </Text>
           <Text style={[styles.subtitle, { color: colorScheme.secondaryText }]}>
             Sign up to start generating AI prompts
           </Text>
         </Animated.View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(1000)} style={styles.form}>
+        <Animated.View
+          entering={FadeInDown.delay(500).duration(1000)}
+          style={styles.form}
+        >
           {error && (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>{error}</Text>
@@ -92,11 +110,14 @@ export default function RegisterScreen() {
               <User size={20} color={colorScheme.secondaryText} />
             </View>
             <TextInput
-              style={[styles.input, { 
-                color: colorScheme.text,
-                backgroundColor: colorScheme.cardBackground,
-                borderColor: colorScheme.border 
-              }]}
+              style={[
+                styles.input,
+                {
+                  color: colorScheme.text,
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               placeholder="Full Name"
               placeholderTextColor={colorScheme.secondaryText}
               value={name}
@@ -110,11 +131,14 @@ export default function RegisterScreen() {
               <Mail size={20} color={colorScheme.secondaryText} />
             </View>
             <TextInput
-              style={[styles.input, { 
-                color: colorScheme.text,
-                backgroundColor: colorScheme.cardBackground,
-                borderColor: colorScheme.border 
-              }]}
+              style={[
+                styles.input,
+                {
+                  color: colorScheme.text,
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               placeholder="Email"
               placeholderTextColor={colorScheme.secondaryText}
               value={email}
@@ -129,11 +153,14 @@ export default function RegisterScreen() {
               <Lock size={20} color={colorScheme.secondaryText} />
             </View>
             <TextInput
-              style={[styles.input, { 
-                color: colorScheme.text,
-                backgroundColor: colorScheme.cardBackground,
-                borderColor: colorScheme.border 
-              }]}
+              style={[
+                styles.input,
+                {
+                  color: colorScheme.text,
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               placeholder="Password"
               placeholderTextColor={colorScheme.secondaryText}
               value={password}
@@ -158,12 +185,18 @@ export default function RegisterScreen() {
           </TouchableOpacity>
 
           <View style={styles.signupContainer}>
-            <Text style={[styles.signupText, { color: colorScheme.secondaryText }]}>
+            <Text
+              style={[styles.signupText, { color: colorScheme.secondaryText }]}
+            >
               Already have an account?
             </Text>
             <Link href="/(auth)/login" asChild>
               <TouchableOpacity>
-                <Text style={[styles.signupLink, { color: colorScheme.primary }]}>Sign In</Text>
+                <Text
+                  style={[styles.signupLink, { color: colorScheme.primary }]}
+                >
+                  Sign In
+                </Text>
               </TouchableOpacity>
             </Link>
           </View>

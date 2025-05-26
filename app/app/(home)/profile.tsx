@@ -20,7 +20,6 @@ import {
   Bookmark,
   FileText,
 } from 'lucide-react-native';
-import Header from '@/components/Header';
 import StatisticCard from '@/components/StatisticCard';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
@@ -62,8 +61,6 @@ export default function ProfileScreen() {
     <View
       style={[styles.container, { backgroundColor: colorScheme.background }]}
     >
-      {/* <Header title="Profile" /> */}
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}

@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
@@ -13,7 +23,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { login } = useAuthStore();
   const { theme } = useThemeStore();
   const router = useRouter();
@@ -27,7 +37,7 @@ export default function LoginScreen() {
       setError('Please enter both email and password');
       return;
     }
-    
+
     if (!email.includes('@')) {
       setError('Please enter a valid email address');
       return;
@@ -35,19 +45,19 @@ export default function LoginScreen() {
 
     setLoading(true);
     setError(null);
-    
+
     try {
       // For demo purposes, we'll simulate a successful login after a short delay
       setTimeout(() => {
         // Success
-        login({ 
-          id: '1', 
+        login({
+          id: '1',
           email,
           name: 'John Doe',
-          token: 'fake-jwt-token-123456789'
+          token: 'fake-jwt-token-123456789',
         });
-        
-        router.replace('/(tabs)');
+
+        router.replace('/(home)');
       }, 1500);
     } catch (error) {
       console.error('Login error:', error);
@@ -63,23 +73,31 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={[styles.container, { backgroundColor: colorScheme.background }]} 
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: colorScheme.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.scrollContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Animated.View entering={FadeIn.delay(300).duration(1000)} style={styles.header}>
-          <Text style={[styles.title, { color: colorScheme.text }]}>Welcome Back</Text>
+        <Animated.View
+          entering={FadeIn.delay(300).duration(1000)}
+          style={styles.header}
+        >
+          <Text style={[styles.title, { color: colorScheme.text }]}>
+            Welcome Back
+          </Text>
           <Text style={[styles.subtitle, { color: colorScheme.secondaryText }]}>
             Sign in to continue to AI Prompt Generator
           </Text>
         </Animated.View>
 
-        <Animated.View entering={FadeInDown.delay(500).duration(1000)} style={styles.form}>
+        <Animated.View
+          entering={FadeInDown.delay(500).duration(1000)}
+          style={styles.form}
+        >
           {error && (
             <View style={styles.errorContainer}>
               <Text style={styles.errorText}>{error}</Text>
@@ -91,11 +109,14 @@ export default function LoginScreen() {
               <Mail size={20} color={colorScheme.secondaryText} />
             </View>
             <TextInput
-              style={[styles.input, { 
-                color: colorScheme.text,
-                backgroundColor: colorScheme.cardBackground,
-                borderColor: colorScheme.border 
-              }]}
+              style={[
+                styles.input,
+                {
+                  color: colorScheme.text,
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               placeholder="Email"
               placeholderTextColor={colorScheme.secondaryText}
               value={email}
@@ -110,11 +131,14 @@ export default function LoginScreen() {
               <Lock size={20} color={colorScheme.secondaryText} />
             </View>
             <TextInput
-              style={[styles.input, { 
-                color: colorScheme.text,
-                backgroundColor: colorScheme.cardBackground,
-                borderColor: colorScheme.border 
-              }]}
+              style={[
+                styles.input,
+                {
+                  color: colorScheme.text,
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               placeholder="Password"
               placeholderTextColor={colorScheme.secondaryText}
               value={password}
@@ -126,7 +150,12 @@ export default function LoginScreen() {
           <View style={styles.forgotPasswordContainer}>
             <Link href="/(auth)/forgot-password" asChild>
               <TouchableOpacity>
-                <Text style={[styles.forgotPasswordText, { color: colorScheme.primary }]}>
+                <Text
+                  style={[
+                    styles.forgotPasswordText,
+                    { color: colorScheme.primary },
+                  ]}
+                >
                   Forgot Password?
                 </Text>
               </TouchableOpacity>
@@ -149,20 +178,40 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           <View style={styles.dividerContainer}>
-            <View style={[styles.divider, { backgroundColor: colorScheme.border }]} />
-            <Text style={[styles.dividerText, { color: colorScheme.secondaryText }]}>or continue with</Text>
-            <View style={[styles.divider, { backgroundColor: colorScheme.border }]} />
+            <View
+              style={[styles.divider, { backgroundColor: colorScheme.border }]}
+            />
+            <Text
+              style={[styles.dividerText, { color: colorScheme.secondaryText }]}
+            >
+              or continue with
+            </Text>
+            <View
+              style={[styles.divider, { backgroundColor: colorScheme.border }]}
+            />
           </View>
 
           <View style={styles.socialButtonsContainer}>
-            <TouchableOpacity 
-              style={[styles.socialButton, { backgroundColor: colorScheme.cardBackground, borderColor: colorScheme.border }]}
+            <TouchableOpacity
+              style={[
+                styles.socialButton,
+                {
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               onPress={() => handleSocialLogin('GitHub')}
             >
               <Github size={22} color={colorScheme.text} />
             </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.socialButton, { backgroundColor: colorScheme.cardBackground, borderColor: colorScheme.border }]}
+            <TouchableOpacity
+              style={[
+                styles.socialButton,
+                {
+                  backgroundColor: colorScheme.cardBackground,
+                  borderColor: colorScheme.border,
+                },
+              ]}
               onPress={() => handleSocialLogin('Twitter')}
             >
               <Twitter size={22} color={colorScheme.text} />
@@ -170,12 +219,18 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.signupContainer}>
-            <Text style={[styles.signupText, { color: colorScheme.secondaryText }]}>
+            <Text
+              style={[styles.signupText, { color: colorScheme.secondaryText }]}
+            >
               Don't have an account?
             </Text>
             <Link href="/(auth)/register" asChild>
               <TouchableOpacity>
-                <Text style={[styles.signupLink, { color: colorScheme.primary }]}>Sign Up</Text>
+                <Text
+                  style={[styles.signupLink, { color: colorScheme.primary }]}
+                >
+                  Sign Up
+                </Text>
               </TouchableOpacity>
             </Link>
           </View>

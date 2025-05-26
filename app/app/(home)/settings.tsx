@@ -14,13 +14,11 @@ import {
   Moon,
   Sun,
   Bell,
-  Globe,
   Lock,
   Trash2,
   HelpCircle,
   Info,
 } from 'lucide-react-native';
-import Header from '@/components/Header';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { usePromptStore } from '@/store/promptStore';
 
@@ -77,8 +75,6 @@ export default function SettingsScreen() {
     <View
       style={[styles.container, { backgroundColor: colorScheme.background }]}
     >
-      {/* <Header title="Settings" /> */}
-
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}

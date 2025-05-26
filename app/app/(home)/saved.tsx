@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import { View, StyleSheet, FlatList, TextInput } from 'react-native';
 import { useThemeStore } from '@/store/themeStore';
 import { usePromptStore } from '@/store/promptStore';
 import { colors } from '@/constants/Colors';
 import { statusBarHeight } from '@/constants/Layout';
-import { Search, Trash2, Copy, Bookmark } from 'lucide-react-native';
-import Header from '@/components/Header';
-import Animated, { FadeInRight } from 'react-native-reanimated';
-import { formatDate } from '@/utils/dateUtils';
+import { Search } from 'lucide-react-native';
 import EmptyState from '@/components/EmptyState';
 import PromptCard from '@/components/PromptCard';
 
@@ -64,8 +54,6 @@ export default function SavedScreen() {
     <View
       style={[styles.container, { backgroundColor: colorScheme.background }]}
     >
-      {/* <Header title="Saved Prompts" /> */}
-
       <View style={styles.content}>
         <View
           style={[
