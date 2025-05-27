@@ -30,6 +30,9 @@
       "eas": {
         "projectId": "1d5b3844-6f46-4e59-831a-ccbde113c5ee"
       }
+    },
+    "android": {
+      "package": "com.hezron.promptfy"
     }
   }
 }

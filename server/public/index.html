@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptfy API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+
+        .endpoint {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .post {
+            background-color: #27ae60;
+        }
+
+        .get {
+            background-color: #3498db;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Promptfy API Documentation</h1>
+
+    <p>Welcome to the Promptfy API. Below are the available endpoints for authentication.</p>
+
+    <div class="container">
+        <h2>Authentication</h2>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/auth/register</code>
+            <p>Register a new user</p>
+            <pre>{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/auth/verify-email</code>
+            <p>Verify user email</p>
+            <pre>{
+  "email": "john@example.com",
+  "verificationToken": "token-received-in-email"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/auth/login</code>
+            <p>Login with email and password</p>
+            <pre>{
+  "email": "john@example.com",
+  "password": "password123"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/auth/forgot-password</code>
+            <p>Request password reset</p>
+            <pre>{
+  "email": "john@example.com"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/auth/reset-password</code>
+            <p>Reset password with token</p>
+            <pre>{
+  "email": "john@example.com",
+  "token": "reset-token-from-email",
+  "password": "newpassword123"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/v1/auth/me</code>
+            <p>Get current user details (requires authentication)</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+    </div>
+
+    <p>For any issues or questions, please contact support.</p>
+</body>
+
+</html>
