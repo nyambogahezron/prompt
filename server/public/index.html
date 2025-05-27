@@ -214,6 +214,91 @@
         </div>
     </div>
 
+    <div class="container">
+        <h2>Sharing & Collaboration</h2>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/share/:id/public</code>
+            <p>Make a prompt public</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span>
+            <code>/api/v1/share/:id/public</code>
+            <p>Make a prompt private</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/v1/share/public</code>
+            <p>List all public prompts</p>
+            <p>Query Parameters: category, tags, search, page, limit</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/v1/share/public/:slug</code>
+            <p>Get a public prompt by slug</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/share/:id/collaborators</code>
+            <p>Add a collaborator to a prompt</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+            <pre>{
+  "email": "collaborator@example.com",
+  "role": "editor"  // or "viewer"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span>
+            <code>/api/v1/share/:id/collaborators/:userId</code>
+            <p>Remove a collaborator from a prompt</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method patch">PATCH</span>
+            <code>/api/v1/share/:id/collaborators/:userId</code>
+            <p>Update a collaborator's role</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+            <pre>{
+  "role": "editor"  // or "viewer"
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/v1/share/shared</code>
+            <p>Get all prompts shared with you</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <code>/api/v1/share/:id/versions</code>
+            <p>Add a new version to the version history</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+            <pre>{
+  "prompt": "Updated prompt content",
+  "notes": "Updated to improve clarity",
+  "updateCurrent": true
+}</pre>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <code>/api/v1/share/:id/versions</code>
+            <p>Get version history for a prompt</p>
+            <p>Header: <code>Authorization: Bearer your-token-here</code></p>
+        </div>
+    </div>
+
     <p>For any issues or questions, please contact support.</p>
 </body>
 

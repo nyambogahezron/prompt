@@ -31,6 +31,10 @@ app.use('/api/v1/auth', authRouter);
 // Prompt routes
 app.use('/api/v1/prompts', promptRouter);
 
+// Sharing and collaboration routes
+import shareRouter from './routes/shareRoutes';
+app.use('/api/v1/share', shareRouter);
+
 // Not found and error handler middleware
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

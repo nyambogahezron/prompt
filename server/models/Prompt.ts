@@ -1,5 +1,11 @@
 import mongoose, { Document } from 'mongoose';
 
+export interface ICollaborator {
+	userId: mongoose.Schema.Types.ObjectId;
+	role: 'editor' | 'viewer';
+	addedAt: Date;
+}
+
 export interface IPrompt extends Document {
 	title: string;
 	content: string;
@@ -8,6 +14,16 @@ export interface IPrompt extends Document {
 	category: string;
 	tags: string[];
 	userId: mongoose.Schema.Types.ObjectId;
+	isPublic: boolean;
+	publicSlug?: string;
+	collaborators: ICollaborator[];
+	versionHistory: {
+		version: number;
+		prompt: string;
+		updatedBy: mongoose.Schema.Types.ObjectId;
+		updatedAt: Date;
+		notes?: string;
+	}[];
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -58,6 +74,57 @@ const PromptSchema = new mongoose.Schema<IPrompt>(
 			ref: 'User',
 			required: true,
 		},
+		isPublic: {
+			type: Boolean,
+			default: false,
+		},
+		publicSlug: {
+			type: String,
+			unique: true,
+			sparse: true, // Only enforces uniqueness if the field exists
+		},
+		collaborators: [
+			{
+				userId: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'User',
+					required: true,
+				},
+				role: {
+					type: String,
+					enum: ['editor', 'viewer'],
+					default: 'viewer',
+				},
+				addedAt: {
+					type: Date,
+					default: Date.now,
+				},
+			},
+		],
+		versionHistory: [
+			{
+				version: {
+					type: Number,
+					required: true,
+				},
+				prompt: {
+					type: String,
+					required: true,
+				},
+				updatedBy: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'User',
+					required: true,
+				},
+				updatedAt: {
+					type: Date,
+					default: Date.now,
+				},
+				notes: {
+					type: String,
+				},
+			},
+		],
 	},
 	{ timestamps: true }
 );

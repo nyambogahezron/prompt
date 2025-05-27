@@ -183,13 +183,14 @@ export const generatePrompt = async (req: AuthRequest, res: Response) => {
 };
 
 export const getUserPrompts = async (req: AuthRequest, res: Response) => {
-	const prompts = await Prompt.find({ userId: req.user?.userId }).sort({
+	// Find prompts where user is owner but not including ones where they're just a collaborator
+	const ownedPrompts = await Prompt.find({ userId: req.user?.userId }).sort({
 		createdAt: -1,
 	});
 
 	res.status(StatusCodes.OK).json({
-		prompts,
-		count: prompts.length,
+		prompts: ownedPrompts,
+		count: ownedPrompts.length,
 	});
 };
 
@@ -198,7 +199,10 @@ export const getPromptById = async (req: AuthRequest, res: Response) => {
 
 	const prompt = await Prompt.findOne({
 		_id: id,
-		userId: req.user?.userId,
+		$or: [
+			{ userId: req.user?.userId },
+			{ 'collaborators.userId': req.user?.userId },
+		],
 	});
 
 	if (!prompt) {
@@ -208,21 +212,44 @@ export const getPromptById = async (req: AuthRequest, res: Response) => {
 		});
 	}
 
-	res.status(StatusCodes.OK).json({ prompt });
+	// Determine user role
+	let userRole = 'owner';
+	if (prompt.userId.toString() !== req.user?.userId) {
+		const collaborator = prompt.collaborators.find(
+			(c) => c.userId.toString() === req.user?.userId
+		);
+		userRole = collaborator ? collaborator.role : 'none';
+	}
+
+	res.status(StatusCodes.OK).json({
+		prompt,
+		userRole,
+	});
 };
 
 export const updatePrompt = async (req: AuthRequest, res: Response) => {
 	const { id } = req.params;
 	const { title, category, tags } = req.body;
 
+	// Find prompt by id and check if user is owner or editor collaborator
 	const prompt = await Prompt.findOne({
 		_id: id,
-		userId: req.user?.userId,
+		$or: [
+			{ userId: req.user?.userId },
+			{
+				collaborators: {
+					$elemMatch: {
+						userId: req.user?.userId,
+						role: 'editor',
+					},
+				},
+			},
+		],
 	});
 
 	if (!prompt) {
 		throw new CustomError({
-			message: `No prompt found with id: ${id}`,
+			message: `No prompt found with id: ${id} or you don't have edit permissions`,
 			statusCode: StatusCodes.NOT_FOUND,
 		});
 	}
@@ -253,12 +280,22 @@ export const enhancePrompt = async (req: AuthRequest, res: Response) => {
 
 	const prompt = await Prompt.findOne({
 		_id: id,
-		userId: req.user?.userId,
+		$or: [
+			{ userId: req.user?.userId },
+			{
+				collaborators: {
+					$elemMatch: {
+						userId: req.user?.userId,
+						role: 'editor',
+					},
+				},
+			},
+		],
 	});
 
 	if (!prompt) {
 		throw new CustomError({
-			message: `No prompt found with id: ${id}`,
+			message: `No prompt found with id: ${id} or you don't have edit permissions`,
 			statusCode: StatusCodes.NOT_FOUND,
 		});
 	}
@@ -292,12 +329,15 @@ export const analyzePrompt = async (req: AuthRequest, res: Response) => {
 
 	const prompt = await Prompt.findOne({
 		_id: id,
-		userId: req.user?.userId,
+		$or: [
+			{ userId: req.user?.userId },
+			{ 'collaborators.userId': req.user?.userId },
+		],
 	});
 
 	if (!prompt) {
 		throw new CustomError({
-			message: `No prompt found with id: ${id}`,
+			message: `No prompt found with id: ${id} or you don't have access`,
 			statusCode: StatusCodes.NOT_FOUND,
 		});
 	}
@@ -322,6 +362,7 @@ export const analyzePrompt = async (req: AuthRequest, res: Response) => {
 export const deletePrompt = async (req: AuthRequest, res: Response) => {
 	const { id } = req.params;
 
+	// Only the owner can delete a prompt
 	const prompt = await Prompt.findOne({
 		_id: id,
 		userId: req.user?.userId,
@@ -329,7 +370,7 @@ export const deletePrompt = async (req: AuthRequest, res: Response) => {
 
 	if (!prompt) {
 		throw new CustomError({
-			message: `No prompt found with id: ${id}`,
+			message: `No prompt found with id: ${id} or you are not the owner`,
 			statusCode: StatusCodes.NOT_FOUND,
 		});
 	}
