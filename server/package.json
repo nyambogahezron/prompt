@@ -8,7 +8,9 @@
 		"dev": "nodemon index.ts",
 		"build": "tsc",
 		"start": "npm run build && node dist/index.js",
-		"seed:admin": "ts-node utils/seedAdmin.ts"
+		"seed:admin": "ts-node utils/seedAdmin.ts",
+		"seed:templates": "ts-node utils/seedTemplatesRunner.ts",
+		"test:gemini": "ts-node utils/testGemini.ts"
 	},
 	"keywords": [
 		"prompt"

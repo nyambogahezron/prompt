@@ -9,6 +9,9 @@ A RESTful API for Promptfy application with comprehensive user authentication in
 - Password reset functionality
 - Role-based access control (User/Admin)
 - MongoDB database integration
+- AI-powered prompt generation using Gemini AI
+- Customizable prompt templates
+- Prompt enhancement and analysis
 
 ## Tech Stack
 
@@ -54,6 +57,7 @@ A RESTful API for Promptfy application with comprehensive user authentication in
    EMAIL_PASS=your_password
    EMAIL_FROM=noreply@promptfy.com
    FRONTEND_URL=http://localhost:3000
+   GEMINI_API_KEY=your_gemini_api_key
    ```
 
 4. Seed an admin user:
@@ -87,6 +91,21 @@ A RESTful API for Promptfy application with comprehensive user authentication in
 - **POST /api/v1/auth/forgot-password** - Request password reset
 - **POST /api/v1/auth/reset-password** - Reset password with token
 - **GET /api/v1/auth/me** - Get current user details (requires authentication)
+
+#### Prompt Generation
+
+- **GET /api/v1/prompts/templates** - Get all prompt templates
+- **GET /api/v1/prompts/templates/:id** - Get prompt template by ID
+- **POST /api/v1/prompts/templates** - Create a new prompt template
+- **PATCH /api/v1/prompts/templates/:id** - Update a prompt template
+- **DELETE /api/v1/prompts/templates/:id** - Delete a prompt template
+- **POST /api/v1/prompts/generate** - Generate a prompt based on template and user instructions
+- **GET /api/v1/prompts/user** - Get all prompts created by the user
+- **GET /api/v1/prompts/:id** - Get a specific prompt by ID
+- **PATCH /api/v1/prompts/:id** - Update a prompt
+- **POST /api/v1/prompts/:id/enhance** - Enhance an existing prompt
+- **GET /api/v1/prompts/:id/analyze** - Analyze a prompt for effectiveness
+- **DELETE /api/v1/prompts/:id** - Delete a prompt
 
 ## License
 

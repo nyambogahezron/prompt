@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import connectDB from './config/connectDB';
-import User from './models/User';
+import connectDB from '../config/connectDB';
+import User from '../models/User';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 
@@ -11,6 +11,13 @@ async function seedAdminUser() {
 		const mongoUrl = process.env.MONGO_URL;
 		if (!mongoUrl) {
 			throw new Error('MONGO_URL is not defined');
+		}
+
+		// Check for Gemini API key (warn only, not required for seeding)
+		if (!process.env.GEMINI_API_KEY) {
+			console.warn(
+				'Warning: GEMINI_API_KEY is not defined. Prompt generation will not work without it.'
+			);
 		}
 
 		// Connect to the database
