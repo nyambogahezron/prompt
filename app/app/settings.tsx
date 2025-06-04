@@ -18,6 +18,10 @@ import {
   Trash2,
   HelpCircle,
   Info,
+  User,
+  History,
+  Bookmark,
+  Edit,
 } from 'lucide-react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { usePromptStore } from '@/store/promptStore';
@@ -82,6 +86,75 @@ export default function SettingsScreen() {
       >
         <Animated.View entering={FadeIn.delay(300).duration(1000)}>
           <Text style={[styles.sectionTitle, { color: colorScheme.text }]}>
+            Profile
+          </Text>
+
+          {renderSettingItem(
+            <User size={24} color={colorScheme.primary} />,
+            'View Profile',
+            'See your profile information',
+            <TouchableOpacity
+              style={[
+                styles.buttonContainer,
+                { backgroundColor: colorScheme.primary },
+              ]}
+              onPress={() => alert('View Profile not implemented')}
+            >
+              <Text style={styles.buttonText}>View</Text>
+            </TouchableOpacity>
+          )}
+
+          {renderSettingItem(
+            <Edit size={24} color={colorScheme.primary} />,
+            'Edit Profile',
+            'Update your profile information',
+            <TouchableOpacity
+              style={[
+                styles.buttonContainer,
+                { backgroundColor: colorScheme.primary },
+              ]}
+              onPress={() => alert('Edit Profile not implemented')}
+            >
+              <Text style={styles.buttonText}>Edit</Text>
+            </TouchableOpacity>
+          )}
+
+          {renderSettingItem(
+            <History size={24} color={colorScheme.primary} />,
+            'History',
+            'View your prompt history',
+            <TouchableOpacity
+              style={[
+                styles.buttonContainer,
+                { backgroundColor: colorScheme.primary },
+              ]}
+              onPress={() => alert('History not implemented')}
+            >
+              <Text style={styles.buttonText}>View</Text>
+            </TouchableOpacity>
+          )}
+
+          {renderSettingItem(
+            <Bookmark size={24} color={colorScheme.primary} />,
+            'Saved Prompts',
+            'Access your saved prompts',
+            <TouchableOpacity
+              style={[
+                styles.buttonContainer,
+                { backgroundColor: colorScheme.primary },
+              ]}
+              onPress={() => alert('Saved Prompts not implemented')}
+            >
+              <Text style={styles.buttonText}>View</Text>
+            </TouchableOpacity>
+          )}
+
+          <Text
+            style={[
+              styles.sectionTitle,
+              { color: colorScheme.text, marginTop: 24 },
+            ]}
+          >
             Appearance
           </Text>
 

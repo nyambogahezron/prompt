@@ -4,15 +4,7 @@ import { useThemeStore } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
 import { usePromptStore } from '@/store/promptStore';
 import { colors } from '@/constants/Colors';
-import {
-  Home,
-  History,
-  Bookmark,
-  Settings,
-  User,
-  LogOut,
-  Clock,
-} from 'lucide-react-native';
+import { History, Bookmark, Settings, User, Clock } from 'lucide-react-native';
 import 'react-native-gesture-handler';
 import {
   View,
@@ -30,7 +22,7 @@ import { useRouter } from 'expo-router';
 
 export default function DrawerLayout() {
   const { theme } = useThemeStore();
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const { prompts } = usePromptStore();
   const router = useRouter();
   const isDark = theme === 'dark';
@@ -70,14 +62,6 @@ export default function DrawerLayout() {
             {user?.email || 'user@example.com'}
           </Text>
         </View>
-
-        {/* Drawer Items Section */}
-        <DrawerContentScrollView
-          {...props}
-          contentContainerStyle={styles.drawerItemsContainer}
-        >
-          <DrawerItemList {...props} />
-        </DrawerContentScrollView>
 
         {/* Recent Prompts History */}
         {recentPrompts.length > 0 && (
@@ -124,21 +108,28 @@ export default function DrawerLayout() {
           </View>
         )}
 
+        {/* Drawer Items Section */}
+        <DrawerContentScrollView
+          {...props}
+          contentContainerStyle={styles.drawerItemsContainer}
+        >
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
+
         {/* Bottom Buttons Section */}
         <View style={styles.bottomSection}>
           <TouchableOpacity
             style={[styles.bottomButton]}
             onPress={() => {
-              logout();
-              const { router } = require('expo-router');
-              router.replace('/(auth)/login');
+              props.navigation.closeDrawer();
+              router.push('/settings');
             }}
           >
-            <LogOut size={22} color={colorScheme.text} />
+            <Settings size={22} color={colorScheme.text} />
             <Text
-              style={[styles.logoutButtonText, { color: colorScheme.text }]}
+              style={[styles.bottomButtonText, { color: colorScheme.text }]}
             >
-              Logout
+              Settings
             </Text>
           </TouchableOpacity>
         </View>
@@ -177,35 +168,7 @@ export default function DrawerLayout() {
         name="index"
         options={{
           title: 'Home',
-          drawerIcon: ({ color, size }) => <Home size={20} color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="history"
-        options={{
-          title: 'History',
-          drawerIcon: ({ color, size }) => <History size={20} color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="saved"
-        options={{
-          title: 'Saved',
-          drawerIcon: ({ color, size }) => <Bookmark size={20} color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          drawerIcon: ({ color, size }) => <User size={20} color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          drawerIcon: ({ color, size }) => <Settings size={20} color={color} />,
+          drawerItemStyle: { display: 'none' },
         }}
       />
     </Drawer>
@@ -282,15 +245,8 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(185, 29, 29, 0.2)',
   },
   bottomButtonText: {
-    marginLeft: 12,
-    fontSize: 16,
-    fontFamily: 'Inter-Medium',
-  },
-  logoutButtonText: {
     marginLeft: 12,
     fontSize: 16,
     fontFamily: 'Inter-Medium',

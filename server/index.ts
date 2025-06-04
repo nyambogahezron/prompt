@@ -3,7 +3,6 @@ dotenv.config();
 
 import express, { Request, Response } from 'express';
 import connectDB from './config/connectDB';
-import { errorHandlerMiddleware } from './errors';
 import notFoundMiddleware from './middleware/notFound';
 import authRouter from './routes/authRoutes';
 import promptRouter from './routes/promptRoutes';
@@ -36,8 +35,7 @@ import shareRouter from './routes/shareRoutes';
 app.use('/api/v1/share', shareRouter);
 
 // Not found and error handler middleware
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+app.use('*', notFoundMiddleware);
 
 async function startApp() {
 	try {

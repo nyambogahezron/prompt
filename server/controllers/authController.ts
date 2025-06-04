@@ -22,7 +22,7 @@ interface AuthRequest extends Request {
 const createJWT = (user: any) => {
 	return jwt.sign(
 		{ userId: user._id, name: user.name, role: user.role },
-		process.env.JWT_SECRET!,
+		process.env.JWT_SECRET as jwt.Secret,
 		{ expiresIn: process.env.JWT_LIFETIME || '1d' }
 	);
 };
